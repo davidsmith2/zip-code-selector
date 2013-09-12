@@ -1,0 +1,20 @@
+{
+  "name": "mSSS",
+  "version": "0.0.1",
+  "scripts": {
+    "grunt": "grunt"
+  },
+  "dependencies": {
+    "requirejs": "latest",
+    "express": "latest",
+    "path": "latest",
+    "mongoose": "latest"
+  },
+  "devDependencies": {
+    "mocha": "latest",
+    "chai": "latest",
+    "grunt": "latest",
+    "grunt-exec": "latest"
+  },
+  "private": true
+}

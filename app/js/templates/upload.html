@@ -1,0 +1,31 @@
+<script id="geographyZipCodesUploadTemplate" type="text/template">
+    <h2>ZIP loader</h2>
+    <p>To add more than 50 ZIP codes at once, upload a Microsoft Excel, .txt, .csv or .tsv file.</p>
+    <form enctype="multipart/form-data" id="geographyZipCodesUploadForm">
+        <% if (zipCodeFile === '') { %>
+            <div>
+                <input name="file" type="file" />
+            </div>
+            <div class="progress hide">
+                <div class="bar">
+                </div>
+            </div>
+            <div>
+                <input type="submit" value="Upload File" />
+            </div>
+        <% } else { %>
+            <div>
+                <%= zipCodeFile %>
+            </div>
+            <div>
+                <button id="cancel">Cancel</button>
+            </div>
+        <% } %>
+    </form>
+    <div class="msg msg-error">
+    </div>
+    <div class="msg msg-success">
+    </div>
+    <div class="msg msg-warning">
+    </div>
+</script>
