@@ -1,9 +1,26 @@
 <!doctype html>
 <html>
 <head>
-    <title>mSSS</title>
+    <meta charset="utf-8">
+    <title>ZIP code</title>
+    <link href="css/lib/bootstrap.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+input[type=file] {
+    display:none;
+}
+    </style>
 </head>
 <body>
+    <div id="geography">
+        <div id="geographyZipCodes">
+            <div id="geographyZipCodesAlertContainer"></div>
+            <div id="geographyZipCodesUploadContainer"></div>
+            <div id="geographyZipCodesManualContainer"></div>
+        </div>
+        <h2>Your Selections</h2>
+        <div id="geographySelectionsContainer">
+        </div>
+    </div>
     <script data-main="js/main.js" src="js/lib/require.js"></script>
 </body>
 </html>
