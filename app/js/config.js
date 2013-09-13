@@ -19,12 +19,12 @@ function () {
                 message: 'File uploaded'
             },
             {
-                type: 'error',
-                message: 'Error relating to uploaded file'
+                type: 'warning',
+                message: 'Uploaded file warning'
             },
             {
-                type: 'warning',
-                message: 'Warning relating to uploaded file'
+                type: 'error',
+                message: 'Uploaded file error'
             }
         ],
 

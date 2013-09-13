@@ -3,10 +3,11 @@ define([
     'underscore',
     'backbone',
     'config',
+    'models/file',
     'text!templates/upload.html'
 ],
 
-function ($, _, Backbone, config, template) {
+function ($, _, Backbone, config, File, template) {
 
     var UploadView = Backbone.View.extend({
 
@@ -20,13 +21,13 @@ function ($, _, Backbone, config, template) {
         },
 
         initialize: function (uploads, selection) {
+            this.file = new File();
             this.uploads = uploads;
-            this.selection = selection;
-            this.listenTo(selection, 'change', this.render);
+            this.listenTo(this.file, 'change:name', this.render);
         },
 
         render: function () {
-            this.$el.empty().append(this.template(this.selection.toJSON()));
+            this.$el.empty().append(this.template(this.file.toJSON()));
             return this;
         },
 
@@ -96,13 +97,12 @@ function ($, _, Backbone, config, template) {
             var response = $.parseJSON(responseText);
 
             if (response.successMessage) {
-                this.uploads.add(data);
-                this.selection.set('zipCodeFile', data.name);
+                this.uploads.add(this.file.set(data));
                 mSSS.models.alert.set(config.alerts[2]);
             } else if (response.warningMessage) {
-                mSSS.models.alert.set(config.alerts[4]);
-            } else if (response.alertMessage) {
                 mSSS.models.alert.set(config.alerts[3]);
+            } else if (response.alertMessage) {
+                mSSS.models.alert.set(config.alerts[4]);
             }
         },
 
@@ -112,11 +112,11 @@ function ($, _, Backbone, config, template) {
         },
 
         detachFile: function (e) {
-            var fileName = this.selection.get('zipCodeFile');
+            var fileName = this.file.get('name');
 
             e.preventDefault();
             this.uploads.findWhere({name: fileName}).destroy();
-            this.selection.set('zipCodeFile', '');
+            this.file.set('name', '');
         },
 
         isValidFileExt: function (validFileExts, fileName) {

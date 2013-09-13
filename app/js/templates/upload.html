@@ -3,11 +3,11 @@
     <p>To add more than 50 ZIP codes at once, upload a Microsoft Excel, .txt, .csv or .tsv file.</p>
     <form enctype="multipart/form-data" id="geographyZipCodesUploadForm" name="geographyZipCodesUploadForm">
         <div>
-            <% if (zipCodeFile === '') { %>
+            <% if (!name) { %>
                 Select file
                 <button class="browse">Browse</button>
             <% } else { %>
-                <%= zipCodeFile %>
+                <%= name %>
                 <button class="browse">Change</button>
                 <button class="cancel">Cancel</button>
             <% } %>
