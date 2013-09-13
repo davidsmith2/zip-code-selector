@@ -2,10 +2,11 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'config',
     'text!templates/upload.html'
 ],
 
-function ($, _, Backbone, template) {
+function ($, _, Backbone, config, template) {
 
     var UploadView = Backbone.View.extend({
 
@@ -13,13 +14,15 @@ function ($, _, Backbone, template) {
         template: _.template($(template).html()),
 
         events: {
-            'submit #geographyZipCodesUploadForm': 'handleSubmit',
-            'click #cancel': 'handleCancel'
+            'submit #geographyZipCodesUploadForm':  'validateFile',
+            'click .browse':                        'browseFiles',
+            'click .cancel':                        'detachFile'
         },
 
         initialize: function (uploads, selection) {
             this.uploads = uploads;
-            this.selection = selection.on('change', this.render, this);
+            this.selection = selection;
+            this.listenTo(selection, 'change', this.render);
         },
 
         render: function () {
@@ -27,15 +30,41 @@ function ($, _, Backbone, template) {
             return this;
         },
 
-        handleSubmit: function (e) {
-            var form = $(e.target),
+        validateFile: function (e) {
+            e.preventDefault();
+
+            if (this.isValidFile()) {
+                console.log('accepted')
+                this.uploadFile(e.target);
+            }
+        },
+
+        isValidFile: function () {
+            var fileInput = this.$('input[type=file]'),
+                fileName = fileInput.val(),
+                validFileExts = fileInput.attr('accepts').split(',');
+
+            if (!fileName) {
+                mSSS.models.alert.set(config.alerts[0]);
+                return false;
+            }
+
+            if (!this.isValidFileExt(validFileExts, fileName)) {
+                mSSS.models.alert.set(config.alerts[1]);
+                return false;
+            }
+
+            return true;
+        },
+
+        uploadFile: function (form) {
+            var $form = $(form),
                 progress = this.$('.progress'),
                 bar = this.$('.bar'),
                 self = this;
 
-            e.preventDefault();
             require(['jquery', 'jqueryForm'], function ($) {
-                form.ajaxSubmit({
+                $form.ajaxSubmit({
                     url: '/api/uploads',
                     type: 'post',
                     beforeSend: function () {
@@ -43,18 +72,16 @@ function ($, _, Backbone, template) {
                         progress.removeClass('hide').addClass('in');
                         bar.width('0%');
                     },
-                    uploadProgress: function (a, b, c, percentComplete) {
+                    uploadProgress: function (event, position, total, percentComplete) {
                         console.log('upload progress')
                         bar.width(percentComplete + '%');
                     },
                     success: function (data, textStatus, jqXHR) {
                         console.log('success')
-                        self.uploads.create(data);
-                        self.selection.set('zipCodeFile', data.name);
+                        self.handleResponse(data, jqXHR.responseText);
                     },
                     complete: function (jqXHR, textStatus) {
                         console.log('complete')
-                        self.handleResponse(jqXHR.responseText);
                         progress.removeClass('in').addClass('hide');
                         bar.width('100%');
                     },
@@ -65,21 +92,39 @@ function ($, _, Backbone, template) {
             });
         },
 
-        handleCancel: function (e) {
-            var fileName = this.selection.get('zipCodeFile'),
-                file = this.uploads.findWhere({name: fileName});
+        handleResponse: function (data, responseText) {
+            var response = $.parseJSON(responseText);
+
+            if (response.successMessage) {
+                this.uploads.add(data);
+                this.selection.set('zipCodeFile', data.name);
+                mSSS.models.alert.set(config.alerts[2]);
+            } else if (response.warningMessage) {
+                mSSS.models.alert.set(config.alerts[4]);
+            } else if (response.alertMessage) {
+                mSSS.models.alert.set(config.alerts[3]);
+            }
+        },
+
+        browseFiles: function (e) {
+            e.preventDefault();
+            this.$('input[type=file]').trigger('click');
+        },
+
+        detachFile: function (e) {
+            var fileName = this.selection.get('zipCodeFile');
 
             e.preventDefault();
-            file.destroy();
+            this.uploads.findWhere({name: fileName}).destroy();
             this.selection.set('zipCodeFile', '');
         },
 
-        handleResponse: function (responseText) {
-            var response = $.parseJSON(responseText);
+        isValidFileExt: function (validFileExts, fileName) {
+            return _.contains(validFileExts, this.getFileExt(fileName));
+        },
 
-            this.$('.msg-success').html(response.successMessage);
-            this.$('.msg-warning').html(response.warningMessage);
-            this.$('.msg-error').html(response.errorMessage);
+        getFileExt: function (fileName) {
+            return (fileName !== '') ? fileName.split('.').pop().toLowerCase() : '';
         }
 
     });

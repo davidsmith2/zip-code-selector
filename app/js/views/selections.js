@@ -17,7 +17,8 @@ function ($, _, Backbone, template) {
         },
 
         initialize: function (selection) {
-            this.selection = selection.on('change', this.render, this);
+            this.selection = selection;
+            this.listenTo(this.selection, 'change', this.render);
         },
 
         render: function () {

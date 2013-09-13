@@ -37,7 +37,7 @@ function ($, _, Backbone, config, Selection, ManualInputView, template) {
 
         renderRows: function (numRows) {
             for (var i = 0; i < numRows; i++) {
-                this.$('#geographyZipCodesManualInputsContainer').append(this.renderRow(rowNum++));
+                this.$('#geographyZipCodesManualInputs').append(this.renderRow(rowNum++));
             }
         },
 

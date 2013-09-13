@@ -134,6 +134,7 @@ function uploadFile (request, response, next) {
     var file, e;
 
     if (request.files) {
+
         file = request.files.file;
         e = request.body;
 
@@ -154,24 +155,20 @@ function addFile (request, response) {
         type: e.type
     });
 
-
     if (mimes.indexOf(file.get('type')) > -1) {
 
         file.set('successMessage', messages.success);
 
+        file.save(function (error) {
+            if (!error) {
+                return console.log('file created');
+            } else {
+                return console.log(error);
+            }
+        });
     } else {
-
-        file.set('warningMessage', messages.warning);
-
+        file.set('errorMessage', messages.error);
     }
-
-    file.save(function (error) {
-        if (!error) {
-            return console.log('file created');
-        } else {
-            return console.log(error);
-        }
-    });
 
     return response.send(file);
 }
