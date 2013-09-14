@@ -16,14 +16,16 @@ function ($, _, Backbone, template) {
             'click .remove': 'removeItem'
         },
 
-        initialize: function (selection) {
-            this.selection = selection;
-            this.listenTo(this.selection, 'change', this.render);
+        initialize: function (models, collections) {
+            this.models = models;
+            this.collections = collections;
+            this.listenTo(this.models.zipCodeFile, 'change:name', this.updateZipCodeFile);
+            this.listenTo(this.collections.zipCodes, 'reset', this.updateZipCodes);
             this.on('render', this.addRemoveItemButtons, this);
         },
 
         render: function () {
-            this.$el.empty().append(this.template(this.selection.toJSON()));
+            this.$el.empty().append(this.template(this.models.selection.toJSON()));
             return this.trigger('render');
         },
 
@@ -46,15 +48,30 @@ function ($, _, Backbone, template) {
 
             selectionActions = {
                 zipCodeFile: function () {
-                    self.selection.set('zipCodeFile', '');
+                    self.models.selection.set('zipCodeFile', '');
                 },
                 zipCodes: function () {
-                    self.selection.removeFromZipCodes(itemText);
+                    self.models.selection.removeFromZipCodes(itemText);
                 }
             };
 
             selectionActions[selectionContainerId]();
             $itemContainer.remove();
+        },
+
+        updateZipCodeFile: function () {
+            this.models.selection.set('zipCodeFile', this.models.zipCodeFile.get('name'));
+            this.render();
+        },
+
+        updateZipCodes: function () {
+            var zipCodes = [];
+
+            this.collections.zipCodes.each(function (zipCode) {
+                zipCodes.push(zipCode.get('code'));
+            });
+            this.models.selection.set('zipCodes', zipCodes);
+            this.render();
         }
 
     });

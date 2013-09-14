@@ -15,19 +15,19 @@ function ($, _, Backbone, config, File, template) {
         template: _.template($(template).html()),
 
         events: {
-            'submit #geographyZipCodesUploadForm':  'validateFile',
-            'click .browse':                        'browseFiles',
-            'click .cancel':                        'detachFile'
+            'submit form':      'validateFile',
+            'click .browse':    'browseFiles',
+            'click .cancel':    'detachFile'
         },
 
-        initialize: function (uploads, selection) {
+        initialize: function (file, uploads) {
+            this.file = file;
             this.uploads = uploads;
-            this.selection = selection;
-            this.listenTo(this.selection, 'change:zipCodeFile', this.render);
+            this.listenTo(this.file, 'change:name', this.render);
         },
 
         render: function () {
-            this.$el.empty().append(this.template(this.selection.toJSON()));
+            this.$el.empty().append(this.template(this.file.toJSON()));
             return this;
         },
 
@@ -35,7 +35,7 @@ function ($, _, Backbone, config, File, template) {
             e.preventDefault();
 
             if (this.isValidFile()) {
-                console.log('accepted')
+                console.log('accepted');
                 this.uploadFile(e.target);
             }
         },
@@ -69,20 +69,20 @@ function ($, _, Backbone, config, File, template) {
                     url: '/api/uploads',
                     type: 'post',
                     beforeSend: function () {
-                        console.log('before send')
+                        console.log('before send');
                         progress.removeClass('hide').addClass('in');
                         bar.width('0%');
                     },
                     uploadProgress: function (event, position, total, percentComplete) {
-                        console.log('upload progress')
+                        console.log('upload progress');
                         bar.width(percentComplete + '%');
                     },
                     success: function (data, textStatus, jqXHR) {
-                        console.log('success')
+                        console.log('success');
                         self.handleResponse(data, jqXHR.responseText);
                     },
                     complete: function (jqXHR, textStatus) {
-                        console.log('complete')
+                        console.log('complete');
                         progress.removeClass('in').addClass('hide');
                         bar.width('100%');
                     },
@@ -97,8 +97,8 @@ function ($, _, Backbone, config, File, template) {
             var response = $.parseJSON(responseText);
 
             if (response.successMessage) {
-                this.uploads.add(this.selection.set(data));
-                this.selection.set('zipCodeFile', data.name);
+                this.uploads.add(this.file.set(data));
+                this.file.set('name', data.name);
                 mSSS.models.alert.set(config.alerts[2]);
             } else if (response.warningMessage) {
                 mSSS.models.alert.set(config.alerts[3]);
@@ -113,11 +113,11 @@ function ($, _, Backbone, config, File, template) {
         },
 
         detachFile: function (e) {
-            var fileName = this.selection.get('zipCodeFile');
+            var fileName = this.file.get('name');
 
             e.preventDefault();
             this.uploads.findWhere({name: fileName}).destroy();
-            this.selection.set('zipCodeFile', '');
+            this.file.set('name', '');
         },
 
         isValidFileExt: function (validFileExts, fileName) {

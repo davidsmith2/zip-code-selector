@@ -3,12 +3,12 @@ define([
     'underscore',
     'backbone',
     'config',
-    'models/selection',
+    'models/zip-code',
     'views/manual/input',
     'text!templates/manual.html'
 ],
 
-function ($, _, Backbone, config, Selection, ManualInputView, template) {
+function ($, _, Backbone, config, ZipCode, ManualInputView, template) {
 
     var rowNum = 0,
         ManualView;
@@ -23,8 +23,8 @@ function ($, _, Backbone, config, Selection, ManualInputView, template) {
             'submit #geographyZipCodesManualForm': 'submitForm'
         },
 
-        initialize: function (selection) {
-            this.selection = selection;
+        initialize: function (zipCodes) {
+            this.zipCodes = zipCodes;
         },
 
         render: function () {
@@ -78,27 +78,31 @@ function ($, _, Backbone, config, Selection, ManualInputView, template) {
 
         submitForm: function (e) {
             var $inputs = this.$('input[type=text]'),
+                zipCodes = [],
                 self = this;
 
             e.preventDefault();
 
             _.each(this.getUniqueZipCodes($inputs), function (zipCode) {
-                self.selection.addToZipCodes(zipCode);
+                zipCodes.push(new ZipCode({
+                    code: zipCode
+                }));
             });
 
+            this.zipCodes.reset(zipCodes);
             $inputs.val('');
         },
 
-        getUniqueZipCodes: function ($inputs) {
-            var zipCodes = [];
+        getUniqueZipCodes: function ($elements) {
+            var array = [];
 
-            _.each(_.filter($inputs, function (input) {
-                return $(input).val();
-            }), function (input) {
-                zipCodes.push($(input).val());
+            _.each(_.filter($elements, function (element) {
+                return $(element).val();
+            }), function (element) {
+                array.push($(element).val());
             });
 
-            return _.uniq(zipCodes);
+            return _.uniq(array);
         }
 
     });
