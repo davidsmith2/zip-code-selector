@@ -13,7 +13,11 @@ function (_, Backbone) {
         },
 
         addToZipCodes: function (zipCode) {
-            this.push('zipCodes', zipCode);
+            var array = this.get('zipCodes');
+
+            if (!_.contains(array, zipCode)) {
+                this.push('zipCodes', zipCode);
+            }
         },
 
         removeFromZipCodes: function (zipCode) {

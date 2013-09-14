@@ -19,8 +19,8 @@ function ($, _, Backbone, config, Selection, ManualInputView, template) {
         template: _.template($(template).html()),
 
         events: {
-            'click #addInputs': 'handleAddInputs',
-            'submit #geographyZipCodesManualForm': 'handleSubmit'
+            'click #addInputs': 'addInputs',
+            'submit #geographyZipCodesManualForm': 'submitForm'
         },
 
         initialize: function (selection) {
@@ -67,7 +67,7 @@ function ($, _, Backbone, config, Selection, ManualInputView, template) {
             return ((config.manual.maxInputs / rowNum) === config.manual.inputsPerRow);
         },
 
-        handleAddInputs: function (e) {
+        addInputs: function (e) {
             e.preventDefault();
             this.renderRows(config.manual.addRows);
 
@@ -76,22 +76,29 @@ function ($, _, Backbone, config, Selection, ManualInputView, template) {
             }
         },
 
-        handleSubmit: function (e) {
-            var form = $(e.target),
-                inputs = this.$('input[type=text]'),
+        submitForm: function (e) {
+            var $inputs = this.$('input[type=text]'),
                 self = this;
 
             e.preventDefault();
-            $.each(inputs, function () {
-                var input = $(this),
-                    value = input.val();
 
-                if (value) {
-                    self.selection.addToZipCodes(value);
-                    input.val('');
-                }
-
+            _.each(this.getUniqueZipCodes($inputs), function (zipCode) {
+                self.selection.addToZipCodes(zipCode);
             });
+
+            $inputs.val('');
+        },
+
+        getUniqueZipCodes: function ($inputs) {
+            var zipCodes = [];
+
+            _.each(_.filter($inputs, function (input) {
+                return $(input).val();
+            }), function (input) {
+                zipCodes.push($(input).val());
+            });
+
+            return _.uniq(zipCodes);
         }
 
     });
