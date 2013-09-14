@@ -20,14 +20,14 @@ function ($, _, Backbone, config, File, template) {
             'click .cancel':    'detachFile'
         },
 
-        initialize: function (file, uploads) {
-            this.file = file;
+        initialize: function (uploads, selection) {
             this.uploads = uploads;
-            this.listenTo(this.file, 'change:name', this.render);
+            this.selection = selection;
+            this.listenTo(this.selection, 'change:zipCodeFile', this.render);
         },
 
         render: function () {
-            this.$el.empty().append(this.template(this.file.toJSON()));
+            this.$el.empty().append(this.template(this.selection.toJSON()));
             return this;
         },
 
@@ -97,8 +97,8 @@ function ($, _, Backbone, config, File, template) {
             var response = $.parseJSON(responseText);
 
             if (response.successMessage) {
-                this.uploads.add(this.file.set(data));
-                this.file.set('name', data.name);
+                this.uploads.add(data);
+                this.selection.set('zipCodeFile', data.name);
                 mSSS.models.alert.set(config.alerts[2]);
             } else if (response.warningMessage) {
                 mSSS.models.alert.set(config.alerts[3]);
@@ -113,11 +113,11 @@ function ($, _, Backbone, config, File, template) {
         },
 
         detachFile: function (e) {
-            var fileName = this.file.get('name');
+            var fileName = this.selection.get('zipCodeFile');
 
             e.preventDefault();
             this.uploads.findWhere({name: fileName}).destroy();
-            this.file.set('name', '');
+            this.selection.set('zipCodeFile', '');
         },
 
         isValidFileExt: function (validFileExts, fileName) {

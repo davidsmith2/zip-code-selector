@@ -16,16 +16,15 @@ function ($, _, Backbone, template) {
             'click .remove': 'removeItem'
         },
 
-        initialize: function (models, collections) {
-            this.models = models;
-            this.collections = collections;
-            this.listenTo(this.models.zipCodeFile, 'change:name', this.updateZipCodeFile);
-            this.listenTo(this.collections.zipCodes, 'reset', this.updateZipCodes);
+        initialize: function (selection) {
+            this.selection = selection;
+            this.listenTo(this.selection, 'change:zipCodeFile', this.render);
+            this.listenTo(this.selection, 'change:zipCodes', this.render);
             this.on('render', this.addRemoveItemButtons, this);
         },
 
         render: function () {
-            this.$el.empty().append(this.template(this.models.selection.toJSON()));
+            this.$el.empty().append(this.template(this.selection.toJSON()));
             return this.trigger('render');
         },
 
@@ -48,30 +47,14 @@ function ($, _, Backbone, template) {
 
             selectionActions = {
                 zipCodeFile: function () {
-                    self.models.selection.set('zipCodeFile', '');
+                    self.selection.set('zipCodeFile', '');
                 },
                 zipCodes: function () {
-                    self.models.selection.removeFromZipCodes(itemText);
+                    self.selection.removeFromZipCodes(itemText);
                 }
             };
-
             selectionActions[selectionContainerId]();
             $itemContainer.remove();
-        },
-
-        updateZipCodeFile: function () {
-            this.models.selection.set('zipCodeFile', this.models.zipCodeFile.get('name'));
-            this.render();
-        },
-
-        updateZipCodes: function () {
-            var zipCodes = [];
-
-            this.collections.zipCodes.each(function (zipCode) {
-                zipCodes.push(zipCode.get('code'));
-            });
-            this.models.selection.set('zipCodes', zipCodes);
-            this.render();
         }
 
     });

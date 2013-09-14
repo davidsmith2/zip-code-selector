@@ -15,13 +15,19 @@ input[type=file] {
 </head>
 <body>
     <div id="geography">
-        <div id="geographyZipCodes">
-            <div id="geographyZipCodesAlertContainer"></div>
-            <div id="geographyZipCodesUploadContainer"></div>
-            <div id="geographyZipCodesManualContainer"></div>
-        </div>
-        <h2>Your Selections</h2>
-        <div id="geographySelectionsContainer">
+        <div class="row">
+            <div class="span10">
+                <div id="geographyZipCodes">
+                    <div id="geographyZipCodesAlertContainer"></div>
+                    <div id="geographyZipCodesUploadContainer"></div>
+                    <div id="geographyZipCodesManualContainer"></div>
+                </div>
+            </div>
+            <div class="span2">
+                <h2>Your Selections</h2>
+                <div id="geographySelectionsContainer">
+                </div>
+            </div>
         </div>
     </div>
     <script data-main="js/main.js" src="js/lib/require.js"></script>
