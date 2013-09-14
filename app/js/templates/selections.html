@@ -3,7 +3,7 @@
         <h3>Zip code file</h3>
         <div>
             <% if (zipCodeFile !== '') { %>
-                <div><span class="desc"><%= zipCodeFile %></span> <a class="remove" href="#" title="<%= zipCodeFile %>">X</a></div>
+                <div><span class="description"><%= zipCodeFile %></span></div>
             <% } %>
         </div>
     </div>
@@ -12,7 +12,7 @@
         <ul>
             <% if (zipCodes.length) { %>
                 <% _.each(zipCodes, function (zipCode) { %>
-                    <li><span class="desc"><%= zipCode %></span> <a class="remove" href="#" title="<%= zipCode %>">X</a></li>
+                    <li><span class="description"><%= zipCode %></span></li>
                 <% }) %>
             <% } %>
         </ul>

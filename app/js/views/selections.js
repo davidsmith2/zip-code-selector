@@ -19,17 +19,22 @@ function ($, _, Backbone, template) {
         initialize: function (selection) {
             this.selection = selection;
             this.listenTo(this.selection, 'change', this.render);
+            this.on('render', this.addRemoveItemButtons, this);
         },
 
         render: function () {
             this.$el.empty().append(this.template(this.selection.toJSON()));
-            return this;
+            return this.trigger('render');
+        },
+
+        addRemoveItemButtons: function () {
+            this.$('.description').parent().append('<a class="remove" href="#">X</a>');
         },
 
         removeItem: function (e) {
             var $target = $(e.target),
                 targetTitle = $target.attr('title'),
-                $itemHtml = $target.prev('.desc'),
+                $itemHtml = $target.prev('.description'),
                 itemText = $itemHtml.text(),
                 $itemContainer = $itemHtml.parent(),
                 $selectionContainer = $itemContainer.closest('.selections'),
@@ -48,10 +53,8 @@ function ($, _, Backbone, template) {
                 }
             };
 
-            if (targetTitle === itemText) {
-                selectionActions[selectionContainerId]();
-                $itemContainer.remove();
-            }
+            selectionActions[selectionContainerId]();
+            $itemContainer.remove();
         }
 
     });
