@@ -18,8 +18,7 @@ function ($, _, Backbone, template) {
 
         initialize: function (search) {
             this.search = search;
-            this.listenTo(this.search, 'change:zipCodeFile', this.render);
-            this.listenTo(this.search, 'change:zipCodes', this.render);
+            this.listenTo(this.search, 'change', this.render);
             this.on('render', this.addRemoveItemButtons, this);
         },
 
