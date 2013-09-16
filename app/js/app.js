@@ -3,7 +3,7 @@ define([
     'underscore',
     'backbone',
     'models/alert',
-    'models/selection',
+    'models/search',
     'collections/uploads',
     'views/alert',
     'views/manual',
@@ -11,7 +11,7 @@ define([
     'views/upload'
 ],
 
-function ($, _, Backbone, Alert, Selection, Uploads, AlertView, ManualView, SelectionsView, UploadView) {
+function ($, _, Backbone, Alert, Search, Uploads, AlertView, ManualView, SelectionsView, UploadView) {
 
     var App = function () {
 
@@ -19,15 +19,15 @@ function ($, _, Backbone, Alert, Selection, Uploads, AlertView, ManualView, Sele
 
         this.collections.uploads = new Uploads();
 
-        this.models.selection = new Selection();
+        this.models.search = new Search();
         this.models.alert = new Alert();
 
         this.collections.uploads.fetch({reset: true});
         this.collections.uploads.on('sync', function () {
-            $('#geographyZipCodesUploadContainer').replaceWith(new UploadView(self.collections.uploads, self.models.selection).render().el);
-            $('#geographyZipCodesAlertContainer').replaceWith(new AlertView(self.models.alert, self.models.selection).render().el);
-            $('#geographyZipCodesManualContainer').replaceWith(new ManualView(self.models.selection).render().el);
-            $('#geographySelectionsContainer').replaceWith(new SelectionsView(self.models.selection).render().el);
+            $('#geographyZipCodesUploadContainer').replaceWith(new UploadView(self.collections.uploads, self.models.search).render().el);
+            $('#geographyZipCodesAlertContainer').replaceWith(new AlertView(self.models.alert, self.models.search).render().el);
+            $('#geographyZipCodesManualContainer').replaceWith(new ManualView(self.models.search).render().el);
+            $('#geographySelectionsContainer').replaceWith(new SelectionsView(self.models.search).render().el);
         });
 
     };

@@ -16,15 +16,15 @@ function ($, _, Backbone, template) {
             'click .remove': 'removeItem'
         },
 
-        initialize: function (selection) {
-            this.selection = selection;
-            this.listenTo(this.selection, 'change:zipCodeFile', this.render);
-            this.listenTo(this.selection, 'change:zipCodes', this.render);
+        initialize: function (search) {
+            this.search = search;
+            this.listenTo(this.search, 'change:zipCodeFile', this.render);
+            this.listenTo(this.search, 'change:zipCodes', this.render);
             this.on('render', this.addRemoveItemButtons, this);
         },
 
         render: function () {
-            this.$el.empty().append(this.template(this.selection.toJSON()));
+            this.$el.empty().append(this.template(this.search.toJSON()));
             return this.trigger('render');
         },
 
@@ -47,10 +47,10 @@ function ($, _, Backbone, template) {
 
             selectionActions = {
                 zipCodeFile: function () {
-                    self.selection.set('zipCodeFile', '');
+                    self.search.set('zipCodeFile', '');
                 },
                 zipCodes: function () {
-                    self.selection.removeFromZipCodes(itemText);
+                    self.search.removeFromZipCodes(itemText);
                 }
             };
             selectionActions[selectionContainerId]();

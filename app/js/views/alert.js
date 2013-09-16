@@ -13,10 +13,10 @@ function ($, _, Backbone, config, template) {
         id: 'geographyZipCodesAlert',
         template: _.template($(template).html()),
 
-        initialize: function (alert, selection) {
+        initialize: function (alert, search) {
             this.alert = alert;
             this.listenTo(this.alert, 'change', this.render);
-            this.listenTo(selection, 'change:zipCodeFile', this.reset);
+            this.listenTo(search, 'change:zipCodeFile', this.reset);
         },
 
         render: function () {

@@ -3,11 +3,12 @@ define([
     'underscore',
     'backbone',
     'config',
+    'models/zip-code-input',
     'views/manual/input',
     'text!templates/manual.html'
 ],
 
-function ($, _, Backbone, config, ManualInputView, template) {
+function ($, _, Backbone, config, ZipCodeInput, ManualInputView, template) {
 
     var rowNum = 0,
         ManualView;
@@ -22,8 +23,8 @@ function ($, _, Backbone, config, ManualInputView, template) {
             'submit #geographyZipCodesManualForm': 'submitForm'
         },
 
-        initialize: function (selection) {
-            this.selection = selection;
+        initialize: function (search) {
+            this.search = search;
         },
 
         render: function () {
@@ -55,7 +56,7 @@ function ($, _, Backbone, config, ManualInputView, template) {
         },
 
         renderInput: function (inputNum) {
-            return new ManualInputView({inputNum: inputNum}).render().el;
+            return new ManualInputView(new ZipCodeInput({inputNum: inputNum})).render().el;
         },
 
         isStartOfRow: function (inputNum) {
@@ -82,7 +83,7 @@ function ($, _, Backbone, config, ManualInputView, template) {
 
             e.preventDefault();
             _.each(this.getUniqueZipCodes($inputs), function (zipCode) {
-                self.selection.addToZipCodes(zipCode);
+                self.search.addToZipCodes(zipCode);
             });
             $inputs.val('');
         },

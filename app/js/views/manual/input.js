@@ -19,7 +19,7 @@ function ($, _, Backbone, template) {
         },
 
         render: function () {
-            this.$el.append(this.template(this.model));
+            this.$el.append(this.template(this.model.toJSON()));
             return this;
         }
 

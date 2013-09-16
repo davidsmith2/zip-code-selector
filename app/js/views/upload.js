@@ -20,14 +20,14 @@ function ($, _, Backbone, config, File, template) {
             'click .cancel':    'detachFile'
         },
 
-        initialize: function (uploads, selection) {
+        initialize: function (uploads, search) {
             this.uploads = uploads;
-            this.selection = selection;
-            this.listenTo(this.selection, 'change:zipCodeFile', this.render);
+            this.search = search;
+            this.listenTo(this.search, 'change:zipCodeFile', this.render);
         },
 
         render: function () {
-            this.$el.empty().append(this.template(this.selection.toJSON()));
+            this.$el.empty().append(this.template(this.search.toJSON()));
             return this;
         },
 
@@ -98,7 +98,7 @@ function ($, _, Backbone, config, File, template) {
 
             if (response.successMessage) {
                 this.uploads.add(data);
-                this.selection.set('zipCodeFile', data.name);
+                this.search.set('zipCodeFile', data.name);
                 mSSS.models.alert.set(config.alerts[2]);
             } else if (response.warningMessage) {
                 mSSS.models.alert.set(config.alerts[3]);
@@ -113,11 +113,11 @@ function ($, _, Backbone, config, File, template) {
         },
 
         detachFile: function (e) {
-            var fileName = this.selection.get('zipCodeFile');
+            var fileName = this.search.get('zipCodeFile');
 
             e.preventDefault();
             this.uploads.findWhere({name: fileName}).destroy();
-            this.selection.set('zipCodeFile', '');
+            this.search.set('zipCodeFile', '');
         },
 
         isValidFileExt: function (validFileExts, fileName) {
