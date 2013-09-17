@@ -14,12 +14,12 @@ function ($, _, Backbone, template) {
 
         events: {},
 
-        initialize: function (model) {
-            this.model = model;
+        initialize: function (input) {
+            this.input = input;
         },
 
         render: function () {
-            this.$el.append(this.template(this.model.toJSON()));
+            this.$el.append(this.template(this.input));
             return this;
         }
 

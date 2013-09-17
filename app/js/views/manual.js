@@ -3,12 +3,11 @@ define([
     'underscore',
     'backbone',
     'config',
-    'models/zip-code-input',
     'views/manual/input',
     'text!templates/manual.html'
 ],
 
-function ($, _, Backbone, config, ZipCodeInput, ManualInputView, template) {
+function ($, _, Backbone, config, ManualInputView, template) {
 
     var rowNum = 0,
         ManualView;
@@ -56,7 +55,7 @@ function ($, _, Backbone, config, ZipCodeInput, ManualInputView, template) {
         },
 
         renderInput: function (inputNum) {
-            return new ManualInputView(new ZipCodeInput({inputNum: inputNum})).render().el;
+            return new ManualInputView({inputNum: inputNum}).render().el;
         },
 
         isStartOfRow: function (inputNum) {
