@@ -3,6 +3,8 @@ define([
 
 function () {
 
+    var maxInputs = 50;
+
     return {
 
         students: [
@@ -68,6 +70,10 @@ function () {
             {
                 type: 'error',
                 message: 'Uploaded file error'
+            },
+            {
+                type: 'warning',
+                message: 'You have reached the maximum of ' + maxInputs + ' ZIP code fields. Use the ZIP loader to add more.'
             }
         ],
 
@@ -76,7 +82,7 @@ function () {
         manual: {
             inputsPerRow: 5,
             minInputs: 15,
-            maxInputs: 50,
+            maxInputs: maxInputs,
             addRows: 1
         }
 

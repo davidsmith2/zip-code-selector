@@ -10,8 +10,12 @@ function ($, _, Backbone, config, template) {
 
     var AlertView = Backbone.View.extend({
 
-        id: 'geographyZipCodesAlert',
+        className: 'geographyZipCodesAlert',
         template: _.template($(template).html()),
+
+        events: {
+            'click .close': 'dismiss'
+        },
 
         initialize: function (alert, search) {
             this.alert = alert;
@@ -20,12 +24,23 @@ function ($, _, Backbone, config, template) {
         },
 
         render: function () {
-            this.$el.empty().append(this.template(this.alert.toJSON()));
+            var self = this;
+
+            require(['jquery', 'bootstrapAlert'], function ($) {
+                self.$el.append(self.template(self.alert.toJSON()));
+                self.$('.alert').alert();
+            });
+
             return this;
         },
 
         reset: function () {
             this.alert.set(this.alert.defaults);
+        },
+
+        dismiss: function () {
+            this.reset();
+            this.$('.alert').alert('close');
         }
 
     });

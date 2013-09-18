@@ -3,11 +3,12 @@ define([
     'underscore',
     'backbone',
     'config',
+    'views/alert',
     'views/manual/input',
     'text!templates/manual.html'
 ],
 
-function ($, _, Backbone, config, ManualInputView, template) {
+function ($, _, Backbone, config, AlertView, ManualInputView, template) {
 
     var rowNum = 0,
         ManualView;
@@ -22,8 +23,9 @@ function ($, _, Backbone, config, ManualInputView, template) {
             'submit #geographyZipCodesManualForm': 'submitForm'
         },
 
-        initialize: function (search) {
+        initialize: function (search, alert) {
             this.search = search;
+            this.alert = alert;
         },
 
         render: function () {
@@ -31,6 +33,7 @@ function ($, _, Backbone, config, ManualInputView, template) {
 
             this.$el.append(this.template());
             this.renderRows(numRows);
+            this.$('.geographyZipCodesAlertContainer').replaceWith(new AlertView(this.alert, this.search).render().el);
             return this;
         },
 
@@ -71,7 +74,8 @@ function ($, _, Backbone, config, ManualInputView, template) {
             this.renderRows(config.manual.addRows);
 
             if (this.isLastRow(rowNum)) {
-                $(e.target).attr('disabled', 'disabled');
+                $(e.target).hide();
+                this.alert.set(config.alerts[5]);
             }
         },
 

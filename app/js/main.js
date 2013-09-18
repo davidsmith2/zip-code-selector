@@ -1,10 +1,11 @@
 requirejs.config({
     paths: {
-        'backbone':             'lib/backbone-min',
         'jquery':               'lib/jquery-1.9.1',
-        'jqueryForm':           'lib/jquery.form',
+        'underscore':           'lib/underscore-min',
+        'backbone':             'lib/backbone-min',
         'text':                 'lib/text',
-        'underscore':           'lib/underscore-min'
+        'jqueryForm':           'lib/jquery.form',
+        'bootstrapAlert':       'lib/bootstrap/bootstrap-alert'
     },
 	shim: {
         'backbone': {
@@ -12,6 +13,9 @@ requirejs.config({
             exports: 'Backbone'
         },
         'jqueryForm': {
+            deps: ['jquery']
+        },
+        'bootstrapAlert': {
             deps: ['jquery']
         },
         'jquery': {

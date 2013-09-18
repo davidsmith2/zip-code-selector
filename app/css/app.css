@@ -5,8 +5,12 @@
     margin-bottom:0;
 }
 input[type=file] {
-    display:none;
+    /* display:none; */
 }
 .remove {
     margin:0 0.25em;
+}
+.h2 {
+    font-size:31.5px;
+    font-weight:bold;
 }

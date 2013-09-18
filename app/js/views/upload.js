@@ -3,11 +3,12 @@ define([
     'underscore',
     'backbone',
     'config',
+    'views/alert',
     'models/file',
     'text!templates/upload.html'
 ],
 
-function ($, _, Backbone, config, File, template) {
+function ($, _, Backbone, config, AlertView, File, template) {
 
     var UploadView = Backbone.View.extend({
 
@@ -20,14 +21,16 @@ function ($, _, Backbone, config, File, template) {
             'click .cancel':    'detachFile'
         },
 
-        initialize: function (uploads, search) {
+        initialize: function (uploads, search, alert) {
             this.uploads = uploads;
             this.search = search;
+            this.alert = alert;
             this.listenTo(this.search, 'change:zipCodeFile', this.render);
         },
 
         render: function () {
             this.$el.empty().append(this.template(this.search.toJSON()));
+            this.$('.geographyZipCodesAlertContainer').replaceWith(new AlertView(this.alert, this.search).render().el);
             return this;
         },
 
@@ -46,12 +49,12 @@ function ($, _, Backbone, config, File, template) {
                 validFileExts = fileInput.attr('accepts').split(',');
 
             if (!fileName) {
-                mSSS.models.alert.set(config.alerts[0]);
+                this.alert.set(config.alerts[0]);
                 return false;
             }
 
             if (!this.isValidFileExt(validFileExts, fileName)) {
-                mSSS.models.alert.set(config.alerts[1]);
+                this.alert.set(config.alerts[1]);
                 return false;
             }
 
@@ -99,11 +102,11 @@ function ($, _, Backbone, config, File, template) {
             if (response.successMessage) {
                 this.uploads.add(data);
                 this.search.set('zipCodeFile', data.name);
-                mSSS.models.alert.set(config.alerts[2]);
+                this.alert.set(config.alerts[2]);
             } else if (response.warningMessage) {
-                mSSS.models.alert.set(config.alerts[3]);
+                this.alert.set(config.alerts[3]);
             } else if (response.alertMessage) {
-                mSSS.models.alert.set(config.alerts[4]);
+                this.alert.set(config.alerts[4]);
             }
         },
 

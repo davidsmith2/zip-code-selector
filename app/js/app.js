@@ -7,32 +7,26 @@ define([
     'models/search',
     'collections/students',
     'collections/uploads',
-    'views/alert',
     'views/manual',
     'views/search-results',
     'views/selections',
     'views/upload'
 ],
 
-function ($, _, Backbone, config, Alert, Search, Students, Uploads, AlertView, ManualView, SearchResultsView, SelectionsView, UploadView) {
+function ($, _, Backbone, config, Alert, Search, Students, Uploads, ManualView, SearchResultsView, SelectionsView, UploadView) {
 
     var App = function () {
-        var self = this;
-
         this.collections.students = new Students();
         this.collections.students.add(config.students);
 
         this.models.search = new Search();
 
-        this.models.alert = new Alert();
-
         this.collections.uploads = new Uploads();
         this.collections.uploads.on('sync', this.showUploadView, this).fetch({reset: true});
 
+        $('#geographyZipCodesManualContainer').replaceWith(new ManualView(this.models.search, new Alert()).render().el);
+        $('#geographySelectionsContainer').replaceWith(new SelectionsView(this.models.search).render().el);
         $('#searchResultsContainer').replaceWith(new SearchResultsView(this.models.search, this.collections.students).render().el);
-        $('#geographyZipCodesAlertContainer').replaceWith(new AlertView(this.models.alert, this.models.search).render().el);
-        $('#geographyZipCodesManualContainer').replaceWith(new ManualView(self.models.search).render().el);
-        $('#geographySelectionsContainer').replaceWith(new SelectionsView(self.models.search).render().el);
     };
 
     App.prototype = {
@@ -41,7 +35,7 @@ function ($, _, Backbone, config, Alert, Search, Students, Uploads, AlertView, M
         views: {},
 
         showUploadView: function () {
-            $('#geographyZipCodesUploadContainer').replaceWith(new UploadView(this.collections.uploads, this.models.search).render().el);
+            $('#geographyZipCodesUploadContainer').replaceWith(new UploadView(this.collections.uploads, this.models.search, new Alert()).render().el);
         }
 
     };
