@@ -26,11 +26,15 @@ function ($, _, Backbone, config, AlertView, File, template) {
             this.search = search;
             this.alert = alert;
             this.listenTo(this.search, 'change:zipCodeFile', this.render);
+            this.listenTo(this.alert, 'change', this.render);
         },
 
         render: function () {
+
+            console.log('rendering');
+
             this.$el.empty().append(this.template(this.search.toJSON()));
-            this.$('.geographyZipCodesAlertContainer').replaceWith(new AlertView(this.alert, this.search).render().el);
+            this.$('.geographyZipCodesAlertContainer').empty().append(new AlertView(this.alert).render().el);
             return this;
         },
 

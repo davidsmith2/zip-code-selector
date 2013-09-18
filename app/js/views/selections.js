@@ -28,7 +28,7 @@ function ($, _, Backbone, template) {
         },
 
         addRemoveItemButtons: function () {
-            this.$('.description').parent().append('<a class="remove" href="#">X</a>');
+            this.$('.description').parent().append('<a class="remove" href="#">&times;</a>');
         },
 
         removeItem: function (e) {

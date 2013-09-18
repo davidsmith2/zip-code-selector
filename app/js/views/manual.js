@@ -31,9 +31,9 @@ function ($, _, Backbone, config, AlertView, ManualInputView, template) {
         render: function () {
             var numRows = config.manual.minInputs / config.manual.inputsPerRow;
 
-            this.$el.append(this.template());
+            this.$el.empty().append(this.template());
             this.renderRows(numRows);
-            this.$('.geographyZipCodesAlertContainer').replaceWith(new AlertView(this.alert, this.search).render().el);
+            this.$('.geographyZipCodesAlertContainer').empty().append(new AlertView(this.alert).render().el);
             return this;
         },
 

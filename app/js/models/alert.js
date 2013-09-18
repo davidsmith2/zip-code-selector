@@ -8,8 +8,9 @@ function (_, Backbone) {
     var Alert = Backbone.Model.extend({
 
         defaults: {
-            message: '',
-            type: ''
+            block: false,
+            connotation: '',
+            content: ''
         }
 
     });

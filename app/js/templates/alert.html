@@ -1,8 +1,6 @@
-<script id="geographyZipCodesAlertTemplate" type="text/template">
-    <% if (type) { %>
-        <div class="alert alert-<%= type %>">
-            <%= message %>
-            <button class="close" type="button">&times;</button>
-        </div>
+<script id="alertTemplate" type="text/template">
+    <% if (content) { %>
+        <button class="close" type="button">&times;</button>
+        <%= content %>
     <% } %>
 </script>

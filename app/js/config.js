@@ -52,28 +52,28 @@ function () {
 
         alerts: [
             {
-                type: 'error',
-                message: 'File not selected'
+                connotation: 'error',
+                content: 'File not selected'
             },
             {
-                type: 'error',
-                message: 'Invalid file type'
+                connotation: 'error',
+                content: 'Invalid file type'
             },
             {
-                type: 'success',
-                message: 'File uploaded'
+                connotation: 'success',
+                content: 'File uploaded'
             },
             {
-                type: 'warning',
-                message: 'Uploaded file warning'
+                connotation: 'warning',
+                content: 'Uploaded file warning'
             },
             {
-                type: 'error',
-                message: 'Uploaded file error'
+                connotation: 'error',
+                content: 'Uploaded file error'
             },
             {
-                type: 'warning',
-                message: 'You have reached the maximum of ' + maxInputs + ' ZIP code fields. Use the ZIP loader to add more.'
+                connotation: 'warning',
+                content: 'You have reached the maximum of ' + maxInputs + ' ZIP code fields. Use the ZIP loader to add more.'
             }
         ],
 
