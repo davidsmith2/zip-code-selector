@@ -4,8 +4,8 @@
         <h3>Save or Rename Search</h3>
     </div>
     <div class="modal-body">
-        <label>Enter search name:</label>
-        <input type="text" <% if (name) { %>value="<%= name %>"<% } %> />
+        <label for="name">Enter search name:</label>
+        <input id="name" type="text" <% if (name) { %>value="<%= name %>"<% } %> />
     </div>
     <div class="modal-footer">
         <a href="#" class="btn btn-primary confirm">Save search criteria</a>

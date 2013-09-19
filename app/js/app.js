@@ -17,6 +17,7 @@ define([
 function ($, _, Backbone, config, Alert, Search, Searches, Students, Uploads, ManualView, SearchResultsView, SelectionsView, UploadView) {
 
     var App = function () {
+
         this.collections.students = new Students();
         this.collections.students.add(config.students);
 

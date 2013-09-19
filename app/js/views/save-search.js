@@ -13,7 +13,7 @@ function ($, _, Backbone, template) {
         template: _.template($(template).html()),
 
         events: {
-            'change input[type=text]':  'saveSearchName',
+            'change #name':             'saveName',
             'click .confirm':           'saveSearch',
             'click .cancel':            'hideDialog',
             'click .close':             'hideDialog'
@@ -28,16 +28,13 @@ function ($, _, Backbone, template) {
             var self = this;
 
             require(['bootstrapModal'], function ($) {
-                self.$el
-                    .attr('tabindex', -1)
-                    .append(self.template(self.search.toJSON()))
-                    .modal();
+                self.$el.attr('tabindex', -1).append(self.template(self.search.toJSON())).modal();
             });
 
             return this;
         },
 
-        saveSearchName: function (e) {
+        saveName: function (e) {
             var name = $(e.target).val();
 
             if (name) {

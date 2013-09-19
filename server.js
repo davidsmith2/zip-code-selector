@@ -26,6 +26,15 @@ var File = new mongoose.Schema({
 
 var FileModel = mongoose.model('File', File);
 
+var Search = new mongoose.Schema({
+    name: 'string',
+    private: false
+});
+
+var SearchModel = mongoose.model('Search', Search);
+
+
+
 // configure server
 
 app.configure(function(){
@@ -71,7 +80,7 @@ app.configure(function(){
 
 
 
-// api
+// apis
 
 app.get('/api/uploads', function (request, response) {
     return FileModel.find(function (error, files) {
@@ -97,6 +106,8 @@ app['delete']('/api/uploads/:id', function (request, response) {
         });
     });
 });
+
+
 
 // start server
 

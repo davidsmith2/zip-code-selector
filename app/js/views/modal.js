@@ -24,10 +24,7 @@ function ($, _, Backbone, template) {
             var self = this;
 
             require(['bootstrapModal'], function ($) {
-                self.$el
-                    .attr('tabindex', -1)
-                    .append(self.template(self.modal.toJSON()))
-                    .modal(self.modal.get('options'));
+                self.$el.attr('tabindex', -1).append(self.template(self.modal.toJSON())).modal(self.modal.get('options'));
             });
 
             return this;
