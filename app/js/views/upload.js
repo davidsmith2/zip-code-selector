@@ -3,12 +3,14 @@ define([
     'underscore',
     'backbone',
     'config',
-    'views/alert',
     'models/file',
+    'models/modal',
+    'views/alert',
+    'views/modal',
     'text!templates/upload.html'
 ],
 
-function ($, _, Backbone, config, AlertView, File, template) {
+function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
 
     var UploadView = Backbone.View.extend({
 
@@ -18,7 +20,8 @@ function ($, _, Backbone, config, AlertView, File, template) {
         events: {
             'submit form':      'validateFile',
             'click .browse':    'browseFiles',
-            'click .cancel':    'detachFile'
+            'click .cancel':    'detachFile',
+            'click .help':      'showHelp'
         },
 
         initialize: function (uploads, search, alert) {
@@ -122,6 +125,11 @@ function ($, _, Backbone, config, AlertView, File, template) {
             e.preventDefault();
             this.uploads.findWhere({name: fileName}).destroy();
             this.search.set('zipCodeFile', '');
+        },
+
+        showHelp: function (e) {
+            e.preventDefault();
+            this.$('.modalContainer').empty().append(new ModalView(new Modal(config.modals[1])).render().el);
         },
 
         isValidFileExt: function (validFileExts, fileName) {

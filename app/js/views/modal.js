@@ -14,7 +14,7 @@ function ($, _, Backbone, template) {
 
         events: {
             'click .close': 'close',
-            'click .cancel': 'close'
+            'click .modal-cancel': 'close'
         },
 
         initialize: function (modal) {
@@ -31,7 +31,8 @@ function ($, _, Backbone, template) {
             return this;
         },
 
-        close: function () {
+        close: function (e) {
+            e.preventDefault();
             this.$el.modal('hide');
         }
 
