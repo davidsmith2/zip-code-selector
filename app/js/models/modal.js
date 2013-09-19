@@ -8,9 +8,17 @@ function (_, Backbone) {
     var Modal = Backbone.Model.extend({
 
         defaults: {
-            headerContent: '',
-            bodyContent: '',
-            footerContent: ''
+            options: {
+                backdrop: true,
+                keyboard: true,
+                show: true,
+                remote: false,
+            },
+            content: {
+                header: '',
+                body: '',
+                footer: ''
+            }
         }
 
     });

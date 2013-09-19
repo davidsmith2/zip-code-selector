@@ -9,12 +9,11 @@ function ($, _, Backbone, template) {
 
     var ModalView = Backbone.View.extend({
 
-        className: 'modal',
+        className: 'modal hide fade',
         template: _.template($(template).html()),
 
         events: {
-            'click .close': 'close',
-            'click .modal-cancel': 'close'
+            'click .close': 'close'
         },
 
         initialize: function (modal) {
@@ -24,16 +23,19 @@ function ($, _, Backbone, template) {
         render: function () {
             var self = this;
 
-            require(['jquery', 'bootstrapModal'], function ($) {
-                self.$el.append(self.template(self.modal.toJSON())).modal();
+            require(['bootstrapModal'], function ($) {
+                self.$el
+                    .attr('tabindex', -1)
+                    .append(self.template(self.modal.toJSON()))
+                    .modal(self.modal.get('options'));
             });
 
             return this;
         },
 
         close: function (e) {
-            e.preventDefault();
             this.$el.modal('hide');
+            e.preventDefault();
         }
 
     });

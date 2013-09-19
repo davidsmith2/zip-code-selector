@@ -18,10 +18,11 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
         template: _.template($(template).html()),
 
         events: {
-            'submit form':      'validateFile',
-            'click .browse':    'browseFiles',
-            'click .cancel':    'detachFile',
-            'click .help':      'showHelp'
+            'submit form':          'validateFile',
+            'click .browse':        'browseFiles',
+            'click .cancel':        'detachFile',
+            'click .help':          'showDialog',
+            'click .modal-cancel':  'hideDialog'
         },
 
         initialize: function (uploads, search, alert) {
@@ -127,9 +128,18 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
             this.search.set('zipCodeFile', '');
         },
 
-        showHelp: function (e) {
+        showDialog: function (e) {
+            var modal = new Modal();
+
             e.preventDefault();
-            this.$('.modalContainer').empty().append(new ModalView(new Modal(config.modals[1])).render().el);
+            modal.set('content', config.modals[1]);
+            this.modalView = new ModalView(modal);
+            this.$('.modalContainer').empty().append(this.modalView.render().el);
+        },
+
+        hideDialog: function (e) {
+            e.preventDefault();
+            this.modalView.$el.modal('hide');
         },
 
         isValidFileExt: function (validFileExts, fileName) {

@@ -16,8 +16,9 @@ function ($, _, Backbone, config, Modal, ModalView, template) {
         template: _.template($(template).html()),
 
         events: {
-            'click .save': 'triggerModal',
-            'click .confirm': 'saveSearch'
+            'click .save':          'showDialog',
+            'click .modal-cancel':  'hideDialog',
+            'click .modal-confirm': 'saveSearch'
         },
 
         initialize: function (search, students, searches) {
@@ -61,8 +62,18 @@ function ($, _, Backbone, config, Modal, ModalView, template) {
             return this;
         },
 
-        triggerModal: function () {
-            this.$('.modalContainer').empty().append(new ModalView(new Modal(config.modals[0])).render().el);
+        showDialog: function (e) {
+            var modal = new Modal();
+
+            e.preventDefault();
+            modal.set('content', config.modals[0]);
+            this.modalView = new ModalView(modal);
+            this.$('.modalContainer').empty().append(this.modalView.render().el);
+        },
+
+        hideDialog: function (e) {
+            e.preventDefault();
+            this.modalView.$el.modal('hide');
         },
 
         saveSearch: function () {

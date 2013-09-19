@@ -79,14 +79,14 @@ function () {
 
         modals: [
             {
-                headerContent: '<h3>Save this search</h3>',
-                bodyContent: '<p>Are you sure you want to save this search?</p>',
-                footerContent: '<a href="#" class="btn btn-primary modal-confirm modal-cancel">OK</a><a href="#" class="btn modal-cancel">Cancel</a>'
+                header: '<h3>Save this search</h3>',
+                body: '<p>Are you sure you want to save this search?</p>',
+                footer: '<a href="#" class="btn btn-primary modal-confirm modal-cancel">OK</a><a href="#" class="btn modal-cancel">Cancel</a>'
             },
             {
-                headerContent: '<h3>Header content</h3>',
-                bodyContent: '<p>Body content</p>',
-                footerContent: '<a href="#" class="btn modal-cancel">Close</a>'
+                header: '<h3>Header content</h3>',
+                body: '<p>Body content</p>',
+                footer: '<a href="#" class="btn modal-cancel">Close</a>'
             }
         ],
 
