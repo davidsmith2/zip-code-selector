@@ -1,14 +1,13 @@
 requirejs.config({
     paths: {
-        'jquery':               'lib/jquery-1.9.1',
-        'underscore':           'lib/underscore-min',
-        'backbone':             'lib/backbone-min',
-        'marionette':           'lib/backbone.marionette',
+        'jquery':               'lib/jquery/jquery-1.9.1',
+        'underscore':           'lib/underscore/underscore-min',
+        'backbone':             'lib/backbone/backbone-min',
         'bootstrapTransition':  'lib/bootstrap/bootstrap-transition',
         'bootstrapAlert':       'lib/bootstrap/bootstrap-alert',
         'bootstrapModal':       'lib/bootstrap/bootstrap-modal',
-        'jqueryForm':           'lib/jquery.form',
-        'text':                 'lib/text'
+        'jqueryForm':           'lib/jquery/plugins/jquery.form',
+        'text':                 'lib/text/text'
     },
 	shim: {
         'jquery': {
@@ -20,10 +19,6 @@ requirejs.config({
         'backbone': {
             deps: ['jquery', 'underscore'],
             exports: 'Backbone'
-        },
-        'marionette': {
-            deps: ['jquery', 'underscore', 'backbone'],
-            exports: 'Marionette'
         },
         'bootstrapTransition': {
             deps: ['jquery']
