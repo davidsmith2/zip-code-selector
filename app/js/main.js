@@ -5,7 +5,8 @@ requirejs.config({
         'backbone':             'lib/backbone-min',
         'text':                 'lib/text',
         'jqueryForm':           'lib/jquery.form',
-        'bootstrapAlert':       'lib/bootstrap/bootstrap-alert'
+        'bootstrapAlert':       'lib/bootstrap/bootstrap-alert',
+        'bootstrapModal':       'lib/bootstrap/bootstrap-modal'
     },
 	shim: {
         'backbone': {
@@ -16,6 +17,9 @@ requirejs.config({
             deps: ['jquery']
         },
         'bootstrapAlert': {
+            deps: ['jquery']
+        },
+        'bootstrapModal': {
             deps: ['jquery']
         },
         'jquery': {

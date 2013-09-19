@@ -30,11 +30,8 @@ function ($, _, Backbone, config, AlertView, File, template) {
         },
 
         render: function () {
-
-            console.log('rendering');
-
             this.$el.empty().append(this.template(this.search.toJSON()));
-            this.$('.geographyZipCodesAlertContainer').empty().append(new AlertView(this.alert).render().el);
+            this.$('.alertContainer').empty().append(new AlertView(this.alert).render().el);
             return this;
         },
 

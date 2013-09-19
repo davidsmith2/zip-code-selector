@@ -5,6 +5,7 @@ define([
     'config',
     'models/alert',
     'models/search',
+    'collections/searches',
     'collections/students',
     'collections/uploads',
     'views/manual',
@@ -13,12 +14,13 @@ define([
     'views/upload'
 ],
 
-function ($, _, Backbone, config, Alert, Search, Students, Uploads, ManualView, SearchResultsView, SelectionsView, UploadView) {
+function ($, _, Backbone, config, Alert, Search, Searches, Students, Uploads, ManualView, SearchResultsView, SelectionsView, UploadView) {
 
     var App = function () {
         this.collections.students = new Students();
         this.collections.students.add(config.students);
 
+        this.collections.searches = new Searches();
         this.models.search = new Search();
 
         this.collections.uploads = new Uploads();
@@ -26,7 +28,7 @@ function ($, _, Backbone, config, Alert, Search, Students, Uploads, ManualView, 
 
         $('#geographyZipCodesManualContainer').replaceWith(new ManualView(this.models.search, new Alert()).render().el);
         $('#geographySelectionsContainer').replaceWith(new SelectionsView(this.models.search).render().el);
-        $('#searchResultsContainer').replaceWith(new SearchResultsView(this.models.search, this.collections.students).render().el);
+        $('#searchResultsContainer').replaceWith(new SearchResultsView(this.models.search, this.collections.students, this.collections.searches).render().el);
     };
 
     App.prototype = {

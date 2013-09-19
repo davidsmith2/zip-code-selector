@@ -33,7 +33,7 @@ function ($, _, Backbone, config, AlertView, ManualInputView, template) {
 
             this.$el.empty().append(this.template());
             this.renderRows(numRows);
-            this.$('.geographyZipCodesAlertContainer').empty().append(new AlertView(this.alert).render().el);
+            this.$('.alertContainer').empty().append(new AlertView(this.alert).render().el);
             return this;
         },
 

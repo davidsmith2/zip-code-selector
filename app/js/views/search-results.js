@@ -2,21 +2,28 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'config',
+    'models/modal',
+    'views/modal',
     'text!templates/search-results.html'
 ],
 
-function ($, _, Backbone, template) {
+function ($, _, Backbone, config, Modal, ModalView, template) {
 
     var SearchResultsView = Backbone.View.extend({
 
         id: 'searchResults',
         template: _.template($(template).html()),
 
-        events: {},
+        events: {
+            'click button': 'triggerModal',
+            'click .save': 'saveSearch'
+        },
 
-        initialize: function (search, students) {
+        initialize: function (search, students, searches) {
             this.search = search;
             this.students = students;
+            this.searches = searches;
             this.render();
             this.listenTo(search, 'change:zipCodes', this.update);
         },
@@ -52,6 +59,14 @@ function ($, _, Backbone, template) {
             }));
 
             return this;
+        },
+
+        triggerModal: function () {
+            this.$('.modalContainer').empty().append(new ModalView(new Modal(config.modals[0])).render().el);
+        },
+
+        saveSearch: function () {
+            this.searches.add(this.search);
         }
 
     });

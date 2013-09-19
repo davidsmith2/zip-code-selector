@@ -77,6 +77,14 @@ function () {
             }
         ],
 
+        modals: [
+            {
+                headerContent: '<h3>Save this search</h3>',
+                bodyContent: '<p>Are you sure you want to save this search?</p>',
+                footerContent: '<a href="#" class="btn btn-primary save cancel">OK</a><a href="#" class="btn cancel">Cancel</a>'
+            }
+        ],
+
         upload: {},
 
         manual: {
