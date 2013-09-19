@@ -16,8 +16,8 @@ function ($, _, Backbone, config, Modal, ModalView, template) {
         template: _.template($(template).html()),
 
         events: {
-            'click button': 'triggerModal',
-            'click .save': 'saveSearch'
+            'click .save': 'triggerModal',
+            'click .confirm': 'saveSearch'
         },
 
         initialize: function (search, students, searches) {
