@@ -79,13 +79,8 @@ function () {
 
         modals: [
             {
-                header: '<h3>Save this search</h3>',
-                body: '<p>Are you sure you want to save this search?</p>',
-                footer: '<a href="#" class="btn btn-primary modal-confirm modal-cancel">OK</a><a href="#" class="btn modal-cancel">Cancel</a>'
-            },
-            {
-                header: '<h3>Header content</h3>',
-                body: '<p>Body content</p>',
+                header: '<h3>ZIP Loader Tips</h3>',
+                body: '<ul><li>You can upload as many as 4,000 two-, three-, or five-digit ZIP codes in one file.</li></ul>',
                 footer: '<a href="#" class="btn modal-cancel">Close</a>'
             }
         ],

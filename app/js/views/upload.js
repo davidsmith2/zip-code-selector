@@ -72,7 +72,7 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
                 bar = this.$('.bar'),
                 self = this;
 
-            require(['jquery', 'jqueryForm'], function ($) {
+            require(['jqueryForm'], function ($) {
                 $form.ajaxSubmit({
                     url: '/api/uploads',
                     type: 'post',
@@ -132,7 +132,7 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
             var modal = new Modal();
 
             e.preventDefault();
-            modal.set('content', config.modals[1]);
+            modal.set('content', config.modals[0]);
             this.modalView = new ModalView(modal);
             this.$('.modalContainer').empty().append(this.modalView.render().el);
         },

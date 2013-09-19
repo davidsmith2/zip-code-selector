@@ -3,12 +3,11 @@ define([
     'underscore',
     'backbone',
     'config',
-    'models/modal',
-    'views/modal',
+    'views/save-search',
     'text!templates/search-results.html'
 ],
 
-function ($, _, Backbone, config, Modal, ModalView, template) {
+function ($, _, Backbone, config, SaveSearchView, template) {
 
     var SearchResultsView = Backbone.View.extend({
 
@@ -16,17 +15,15 @@ function ($, _, Backbone, config, Modal, ModalView, template) {
         template: _.template($(template).html()),
 
         events: {
-            'click .save':          'showDialog',
-            'click .modal-cancel':  'hideDialog',
-            'click .modal-confirm': 'saveSearch'
+            'click .open': 'showDialog'
         },
 
         initialize: function (search, students, searches) {
             this.search = search;
             this.students = students;
             this.searches = searches;
-            this.render();
             this.listenTo(search, 'change:zipCodes', this.update);
+            this.listenTo(searches, 'add', this.update);
         },
 
         update: function () {
@@ -55,29 +52,17 @@ function ($, _, Backbone, config, Modal, ModalView, template) {
             }
 
             this.$el.empty().append(this.template({
-                count: count,
-                percent: percent
+                searchName: this.search.get('name'),
+                resultsCount: count,
+                resultsPercent: percent
             }));
 
             return this;
         },
 
         showDialog: function (e) {
-            var modal = new Modal();
-
             e.preventDefault();
-            modal.set('content', config.modals[0]);
-            this.modalView = new ModalView(modal);
-            this.$('.modalContainer').empty().append(this.modalView.render().el);
-        },
-
-        hideDialog: function (e) {
-            e.preventDefault();
-            this.modalView.$el.modal('hide');
-        },
-
-        saveSearch: function () {
-            this.searches.add(this.search);
+            this.$('.modalContainer').empty().append(new SaveSearchView(this.search, this.searches).render().el);
         }
 
     });

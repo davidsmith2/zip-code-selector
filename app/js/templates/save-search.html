@@ -1,0 +1,14 @@
+<script id="saveSearchTemplate" type="text/template">
+    <div class="modal-header">
+        <button aria-hidden="true" class="close" type="button">&times;</button>
+        <h3>Save or Rename Search</h3>
+    </div>
+    <div class="modal-body">
+        <label>Enter search name:</label>
+        <input type="text" <% if (name) { %>value="<%= name %>"<% } %> />
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-primary confirm">Save search criteria</a>
+        <a href="#" class="btn cancel">Cancel</a>
+    </div>
+</script>

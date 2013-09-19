@@ -36,7 +36,7 @@ function ($, _, Backbone, config, template) {
                 this.$el.addClass('alert-block');
             }
 
-            require(['jquery', 'bootstrapAlert'], function ($) {
+            require(['bootstrapAlert'], function ($) {
                 self.$el.empty().append(self.template(self.alert.toJSON())).alert();
             });
 

@@ -8,6 +8,8 @@ function (_, Backbone) {
     var Search = Backbone.Model.extend({
 
         defaults: {
+            name: '',
+            private: false,
             zipCodeFile: '',
             zipCodes: []
         },

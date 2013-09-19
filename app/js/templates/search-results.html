@@ -1,8 +1,9 @@
 <script id="searchResultsTemplate" type="text/template">
-    <p class="h2"><%= count %></p>
+    <p class="h2"><%= resultsCount %></p>
     <p>Students included</p>
-    <p>Your search includes <strong><%= percent %>%</strong> of available students.</p>
-    <button class="btn btn-primary save">Save</button>
+    <p>Your search includes <strong><%= resultsPercent %>%</strong> of available students.</p>
+    <% if (searchName) { %><p><a class="open" href="#"><%= searchName %></a></p><% } %>
+    <button class="btn btn-primary open">Save</button>
     <div class="modalContainer">
     </div>
 </script>
