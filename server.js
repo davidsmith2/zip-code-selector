@@ -178,13 +178,14 @@ function addFile (request, response) {
             }
         });
 
-        responseObj.hiddenFieldName = 'uploadFileFileName';
-        responseObj.hiddenFieldValue = fileName;
-        responseObj.invalidRecord = [];
-
         fs.readFile(filePath, function (error, data) {
+            var zipCodes = [],
+                numZipCodes = 0;
+
             if (!error) {
-                var numZipCodes = data.toString().split('\n').length;
+                zipCodes = data.toString().split('\n');
+                numZipCodes = zipCodes.length;
+                responseObj.zipCodes = zipCodes;
                 responseObj.successMessage = messages.success(numZipCodes, fileName);
             } else {
                 responseObj.errorMessage = messages.error;
