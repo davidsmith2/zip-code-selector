@@ -17,10 +17,7 @@ mongoose.connect('mongodb://localhost/mSSS_database');
 
 var File = new mongoose.Schema({
     name: 'string',
-    type: 'string',
-    successMessage: 'string',
-    warningMessage: 'string',
-    errorMessage: 'string'
+    type: 'string'
 });
 
 var FileModel = mongoose.model('File', File);
