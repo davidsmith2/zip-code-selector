@@ -163,6 +163,8 @@ function addFile (request, response) {
     fileType = e.type;
     filePath = e.path;
 
+    responseObj.fileName = fileName;
+
     if (mimes.indexOf(fileType > -1)) {
 
         file = new FileModel({
