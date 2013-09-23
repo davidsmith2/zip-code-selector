@@ -22,7 +22,7 @@ function ($, _, Backbone, config, SaveSearchView, template) {
             this.search = search;
             this.students = students;
             this.searches = searches;
-            this.listenTo(search, 'change:zipCodes', this.update);
+            this.listenTo(search, 'change', this.update);
             this.listenTo(searches, 'add', this.update);
         },
 

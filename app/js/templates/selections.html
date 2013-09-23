@@ -15,9 +15,11 @@
             <p>None selected</p>
         <% } else { %>
             <ul>
-                <% _.each(zipCodes, function (zipCode) { %>
-                    <li><span class="description"><%= zipCode %></span></li>
-                <% }) %>
+                <% if (!zipCodeFile) { %>
+                    <% _.each(zipCodes, function (zipCode) { %>
+                        <li><span class="description"><%= zipCode %></span></li>
+                    <% }) %>
+                <% } %>
             </ul>
         <% }  %>
     </div>
