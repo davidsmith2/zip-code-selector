@@ -2,9 +2,8 @@
 var applicationRoot = __dirname,
     express = require('express'),
     path = require('path'),
-    mongoose = require('mongoose');
-
-
+    mongoose = require('mongoose'),
+    fs = require('fs');
 
 // create server
 
@@ -136,7 +135,9 @@ var mimes = [
 ];
 
 var messages = {
-    success: 'Success',
+    success: function (numZipCodes, fileName) {
+        return numZipCodes + ' zip codes from zip code file ' + fileName + ' were successfully loaded.'
+    },
     warning: 'Warning',
     error: 'Error'
 };
@@ -145,30 +146,32 @@ function uploadFile (request, response, next) {
     var file, e;
 
     if (request.files) {
-
         file = request.files.file;
         e = request.body;
-
         e.name = file.name;
         e.type = file.headers['content-type'];
+        e.path = file.path;
     }
 
     next();
 }
 
 function addFile (request, response) {
-    var file, e;
+    var responseObj = {},
+        file, fileName, fileType, filePath, e;
 
     e = request.body;
 
-    file = new FileModel({
-        name: e.name,
-        type: e.type
-    });
+    fileName = e.name;
+    fileType = e.type;
+    filePath = e.path;
 
-    if (mimes.indexOf(file.get('type')) > -1) {
+    if (mimes.indexOf(fileType > -1)) {
 
-        file.set('successMessage', messages.success);
+        file = new FileModel({
+            name: fileName,
+            type: fileType
+        });
 
         file.save(function (error) {
             if (!error) {
@@ -177,9 +180,23 @@ function addFile (request, response) {
                 return console.log(error);
             }
         });
+
+        responseObj.hiddenFieldName = 'uploadFileFileName';
+        responseObj.hiddenFieldValue = fileName;
+        responseObj.invalidRecord = [];
+
+        fs.readFile(filePath, function (error, data) {
+            if (!error) {
+                var numZipCodes = data.toString().split('\n').length;
+                responseObj.successMessage = messages.success(numZipCodes, fileName);
+            } else {
+                responseObj.errorMessage = messages.error;
+            }
+            return response.send(responseObj);
+        });
+
     } else {
-        file.set('errorMessage', messages.error);
+        console.log('invalid file type');
     }
 
-    return response.send(file);
 }
