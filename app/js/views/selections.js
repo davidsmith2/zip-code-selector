@@ -46,7 +46,10 @@ function ($, _, Backbone, template) {
 
             selectionActions = {
                 zipCodeFile: function () {
-                    self.search.set('zipCodeFile', '');
+                    self.search.set({
+                        zipCodeFile: '',
+                        zipCodes: []
+                    });
                 },
                 zipCodes: function () {
                     self.search.removeFromZipCodes(itemText);
