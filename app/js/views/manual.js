@@ -11,9 +11,7 @@ define([
 function ($, _, Backbone, config, AlertView, ManualInputView, template) {
 
     var rowNum = 0,
-        ManualView;
-
-    ManualView = Backbone.View.extend({
+        ManualView = Backbone.View.extend({
 
         id: 'geographyZipCodesManual',
         template: _.template($(template).html()),
@@ -65,14 +63,6 @@ function ($, _, Backbone, config, AlertView, ManualInputView, template) {
             }).render().el;
         },
 
-        isStartOfRow: function (inputNum) {
-            return ((inputNum % config.manual.inputsPerRow) === 1);
-        },
-
-        isLastRow: function (rowNum) {
-            return ((config.manual.maxInputs / rowNum) === config.manual.inputsPerRow);
-        },
-
         addInputs: function (e) {
             e.preventDefault();
             this.renderRows(config.manual.addRows);
@@ -81,6 +71,14 @@ function ($, _, Backbone, config, AlertView, ManualInputView, template) {
                 $(e.target).hide();
                 this.alert.set(config.alerts[5]);
             }
+        },
+
+        isStartOfRow: function (inputNum) {
+            return ((inputNum % config.manual.inputsPerRow) === 1);
+        },
+
+        isLastRow: function (rowNum) {
+            return ((config.manual.maxInputs / rowNum) === config.manual.inputsPerRow);
         },
 
         submitForm: function (e) {
