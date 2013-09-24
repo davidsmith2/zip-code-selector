@@ -16,8 +16,7 @@ var app = express();
 mongoose.connect('mongodb://localhost/mSSS_database');
 
 var File = new mongoose.Schema({
-    name: String,
-    type: String
+    name: String
 });
 
 var FileModel = mongoose.model('File', File);

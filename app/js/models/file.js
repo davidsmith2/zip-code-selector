@@ -8,11 +8,7 @@ function (_, Backbone) {
     var File = Backbone.Model.extend({
 
         defaults: {
-            name: '',
-            type: '',
-            successMessage: '',
-            warningMessage: '',
-            errorMessage: ''
+            name: ''
         },
 
         parse: function (response) {

@@ -18,3 +18,12 @@ input[type=file] {
 label[for=private] {
     display:inline;
 }
+.no-left-margin {
+    margin-left:0;
+}
+.no-left-padding {
+    padding-left:0;
+}
+.no-bullets {
+    list-style-type:none;
+}

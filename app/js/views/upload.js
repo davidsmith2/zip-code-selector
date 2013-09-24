@@ -53,6 +53,8 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
                 fileName = fileInput.val(),
                 validFileExts = fileInput.attr('accepts').split(',');
 
+            console.log(fileName)
+
             if (!fileName) {
                 this.alert.set(config.alerts[0]);
                 return false;
@@ -135,6 +137,7 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
                 zipCodeFile: '',
                 zipCodes: []
             });
+            this.alert.set(this.alert.defaults);
         },
 
         showDialog: function (e) {

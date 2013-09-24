@@ -26,6 +26,7 @@ function ($, _, Backbone, config, AlertView, ManualInputView, template) {
         initialize: function (search, alert) {
             this.search = search;
             this.alert = alert;
+            this.listenTo(this.search, 'change:zipCodeFile', this.render);
         },
 
         render: function () {
@@ -58,7 +59,10 @@ function ($, _, Backbone, config, AlertView, ManualInputView, template) {
         },
 
         renderInput: function (inputNum) {
-            return new ManualInputView({inputNum: inputNum}).render().el;
+            return new ManualInputView({
+                inputNum: inputNum,
+                zipCodeFile: this.search.get('zipCodeFile')
+            }).render().el;
         },
 
         isStartOfRow: function (inputNum) {

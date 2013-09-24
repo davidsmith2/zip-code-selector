@@ -28,13 +28,13 @@ function ($, _, Backbone, template) {
         },
 
         addRemoveItemButtons: function () {
-            this.$('.description').parent().append('<a class="remove" href="#">&times;</a>');
+            this.$('.description').parent().prepend('<a class="remove" href="#">&times;</a>');
         },
 
         removeItem: function (e) {
             var $target = $(e.target),
                 targetTitle = $target.attr('title'),
-                $itemHtml = $target.prev('.description'),
+                $itemHtml = $target.next('.description'),
                 itemText = $itemHtml.text(),
                 $itemContainer = $itemHtml.parent(),
                 $selectionContainer = $itemContainer.closest('.selections'),
