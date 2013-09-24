@@ -15,3 +15,6 @@ input[type=file] {
 .modal {
     text-align:left
 }
+label[for=private] {
+    display:inline;
+}

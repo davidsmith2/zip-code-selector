@@ -4,8 +4,20 @@
         <h3>Save or Rename Search</h3>
     </div>
     <div class="modal-body">
-        <label for="name">Enter search name:</label>
-        <input id="name" type="text" <% if (name) { %>value="<%= name %>"<% } %> />
+        <div class="row">
+            <div class="span3">
+                <label for="name">Enter search name:</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="span3">
+                <input id="name" type="text" <% if (name) { %>value="<%= name %>"<% } %> />
+            </div>
+            <div class="span3">
+                <input <% if (_private) { %>checked="checked"<% } %> id="private" type="checkbox" />
+                <label for="private">Save as private search</label>
+            </div>
+        </div>
     </div>
     <div class="modal-footer">
         <a href="#" class="btn btn-primary confirm">Save search criteria</a>

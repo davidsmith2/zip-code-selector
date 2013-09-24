@@ -8,7 +8,8 @@ function (_, Backbone, Search) {
     
     var Searches = Backbone.Collection.extend({
 
-        model: Search
+        model: Search,
+        url: '/api/searches'
 
     });
 

@@ -14,6 +14,7 @@ function ($, _, Backbone, template) {
 
         events: {
             'change #name':             'saveName',
+            'click #private':           'savePrivate',
             'click .confirm':           'saveSearch',
             'click .cancel':            'hideDialog',
             'click .close':             'hideDialog'
@@ -38,14 +39,26 @@ function ($, _, Backbone, template) {
             var name = $(e.target).val();
 
             if (name) {
-                this.search.set('name', name);
+                this.search.set({
+                    name: name
+                });
             }
+        },
+
+        savePrivate: function (e) {
+            this.search.set({
+                _private: ($(e.target).is(':checked')) ? true : false
+            });
         },
 
         saveSearch: function (e) {
             e.preventDefault();
             this.$('.close').trigger('click');
-            this.searches.add(this.search);
+            if (this.search.isNew()) {
+                this.searches.create(this.search);
+            } else {
+                this.search.save();
+            }
         },
 
         hideDialog: function (e) {

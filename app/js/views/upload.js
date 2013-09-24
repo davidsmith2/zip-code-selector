@@ -131,8 +131,10 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
 
             e.preventDefault();
             this.uploads.findWhere({name: fileName}).destroy();
-            this.search.set('zipCodeFile', '');
-            this.search.set('zipCodes', []);
+            this.search.set({
+                zipCodeFile: '',
+                zipCodes: []
+            });
         },
 
         showDialog: function (e) {

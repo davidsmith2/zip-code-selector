@@ -22,14 +22,15 @@ function ($, _, Backbone, config, Alert, Search, Searches, Students, Uploads, Ma
         this.collections.students.add(config.students);
 
         this.collections.searches = new Searches();
-        this.models.search = new Search();
+        this.collections.searches.on('sync', this.showSearchResultsView, this).fetch({reset: true});
 
         this.collections.uploads = new Uploads();
         this.collections.uploads.on('sync', this.showUploadView, this).fetch({reset: true});
 
+        this.models.search = new Search();
+
         $('#geographyZipCodesManualContainer').replaceWith(new ManualView(this.models.search, new Alert()).render().el);
         $('#geographySelectionsContainer').replaceWith(new SelectionsView(this.models.search).render().el);
-        $('#searchResultsContainer').replaceWith(new SearchResultsView(this.models.search, this.collections.students, this.collections.searches).render().el);
     };
 
     App.prototype = {
@@ -39,6 +40,10 @@ function ($, _, Backbone, config, Alert, Search, Searches, Students, Uploads, Ma
 
         showUploadView: function () {
             $('#geographyZipCodesUploadContainer').replaceWith(new UploadView(this.collections.uploads, this.models.search, new Alert()).render().el);
+        },
+
+        showSearchResultsView: function () {
+            $('#searchResultsContainer').replaceWith(new SearchResultsView(this.models.search, this.collections.students, this.collections.searches).render().el);
         }
 
     };

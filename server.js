@@ -16,15 +16,17 @@ var app = express();
 mongoose.connect('mongodb://localhost/mSSS_database');
 
 var File = new mongoose.Schema({
-    name: 'string',
-    type: 'string'
+    name: String,
+    type: String
 });
 
 var FileModel = mongoose.model('File', File);
 
 var Search = new mongoose.Schema({
-    name: 'string',
-    private: false
+    name: String,
+    _private: Boolean,
+    zipCodeFile: String,
+    zipCodes: Array
 });
 
 var SearchModel = mongoose.model('Search', Search);
@@ -98,6 +100,63 @@ app['delete']('/api/uploads/:id', function (request, response) {
                 return response.send('');
             } else {
                 console.log(err);
+            }
+        });
+    });
+});
+
+app.get('/api/searches', function (request, response) {
+    return SearchModel.find(function (error, searches) {
+        if (!error) {
+            return response.send(searches);
+        } else {
+            return console.log(error);
+        }
+    });
+});
+
+app.post('/api/searches', function (request, response) {
+    var search = new SearchModel({
+        name: request.body.name,
+        _private: request.body._private,
+        zipCodeFile: request.body.zipCodeFile,
+        zipCodes: request.body.zipCodes
+    });
+    search.save(function (error) {
+        if (!error) {
+            return console.log('search created');
+        } else {
+            return console.log(error);
+        }
+    });
+    return response.send(search);
+});
+
+app.put('/api/searches/:id', function (request, response) {
+    return SearchModel.findById(request.params.id, function (error, search) {
+        search.name = request.body.name;
+        search._private = request.body._private;
+        search.zipCodeFile = request.body.zipCodeFile;
+        search.zipCodes = request.body.zipCodes;
+        return search.save(function (error) {
+            if (!error) {
+                console.log('search updated');
+            } else {
+                console.log(error);
+            }
+            return response.send(search);
+        });
+    });
+});
+
+app['delete']('/api/searches/:id', function (request, response) {
+    return SearchModel.findById(request.params.id, function (error, search) {
+        return search.remove(function (error) {
+            if (!error) {
+                console.log('search deleted');
+                return response.send('');
+            } else {
+                console.log(error);
             }
         });
     });
