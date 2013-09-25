@@ -105,16 +105,20 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
             if (response.successMessage) {
                 this.uploads.add(data);
                 this.search.set({
-                    'zipCodeFile': response.fileName,
-                    'zipCodes': response.zipCodes
+                    zipCodeFile: response.fileName,
+                    zipCodes: response.zipCodes
                 });
                 this.alert.set({
                     connotation: 'success',
                     content: response.successMessage
                 });
-            } else if (response.warningMessage) {
+            }
+
+            if (response.warningMessage) {
                 this.alert.set(config.alerts[3]);
-            } else if (response.alertMessage) {
+            }
+
+            if (response.alertMessage) {
                 this.alert.set(config.alerts[4]);
             }
         },
