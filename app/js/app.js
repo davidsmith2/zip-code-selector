@@ -8,13 +8,13 @@ define([
     'collections/searches',
     'collections/students',
     'collections/uploads',
-    'views/manual',
-    'views/search-results',
-    'views/selections',
-    'views/upload'
+    'views/search/results/view',
+    'views/search/geography/selections',
+    'views/search/geography/zip-codes/upload/form',
+    'views/search/geography/zip-codes/manual/form'
 ],
 
-function ($, _, Backbone, config, Alert, Search, Searches, Students, Uploads, ManualView, SearchResultsView, SelectionsView, UploadView) {
+function ($, _, Backbone, config, Alert, Search, Searches, Students, Uploads, SearchResultsView, SelectionsView, UploadView, ManualView) {
 
     var App = function () {
 
