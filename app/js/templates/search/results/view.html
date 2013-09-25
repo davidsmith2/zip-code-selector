@@ -1,0 +1,7 @@
+<script id="searchResultsTemplate" type="text/template">
+    <p class="h3 no-bottom-margin"><%= resultsCount %></p>
+    <p>Students included</p>
+    <p>Your search includes <strong><%= resultsPercent %>%</strong> of available students.</p>
+    <% if (searchName) { %><p><a class="open" href="#"><%= searchName %></a></p><% } %>
+    <button class="btn btn-primary open">Save</button>
+</script>
