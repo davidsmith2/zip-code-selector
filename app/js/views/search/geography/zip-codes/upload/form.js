@@ -43,7 +43,6 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
             e.preventDefault();
 
             if (this.isValidFile()) {
-                console.log('accepted');
                 this.uploadFile(e.target);
             }
         },
@@ -52,8 +51,6 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
             var fileInput = this.$('input[type=file]'),
                 fileName = fileInput.val(),
                 validFileExts = fileInput.attr('accepts').split(',');
-
-            console.log(fileName)
 
             if (!fileName) {
                 this.alert.set(config.alerts[0]);
@@ -146,7 +143,7 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
             e.preventDefault();
             modal.set('content', config.modals[0]);
             this.modalView = new ModalView(modal);
-            this.$('.modalContainer').empty().append(this.modalView.render().el);
+            $('.modalContainer').empty().append(this.modalView.render().el);
         },
 
         hideDialog: function (e) {

@@ -25,17 +25,17 @@ function ($, _, Backbone, config, Searches, Students, Uploads, Search, ZipCodesV
         this.models.search = new Search();
 
         // views
-        this.views.zipCodesView = new ZipCodesView(this.models.search, this.collections.uploads);
-        this.views.selectionsView = new SelectionsView(this.models.search);
-        this.views.searchResultsView = new SearchResultsView(this.models.search, this.collections.students, this.collections.searches);
+        this.views.zipCodes = new ZipCodesView(this.models.search, this.collections.uploads);
+        this.views.selections = new SelectionsView(this.models.search);
+        this.views.searchResults = new SearchResultsView(this.models.search, this.collections.searches, this.collections.students);
 
         // populate collections and define callbacks
         this.collections.students.add(config.students);
-        this.collections.searches.on('sync', this.showSearchResultsView, this).fetch({reset: true});
-        this.collections.uploads.on('sync', this.showZipCodesView, this).fetch({reset: true});
+        this.collections.searches.once('sync', this.showSearchResultsView, this).fetch({reset: true});
+        this.collections.uploads.once('sync', this.showZipCodesView, this).fetch({reset: true});
 
         // render initial views
-        $('#geographySelectionsContainer').replaceWith(this.views.selectionsView.render().el);
+        $('#geographySelectionsContainer').replaceWith(this.views.selections.render().el);
 
     };
 
@@ -44,10 +44,10 @@ function ($, _, Backbone, config, Searches, Students, Uploads, Search, ZipCodesV
         models: {},
         views: {},
         showZipCodesView: function () {
-            $('#geographyZipCodesContainer').replaceWith(this.views.zipCodesView.render().el);
+            $('#geographyZipCodesContainer').replaceWith(this.views.zipCodes.render().el);
         },
         showSearchResultsView: function () {
-            $('#searchResultsContainer').replaceWith(this.views.searchResultsView.render().el);
+            $('#searchResultsContainer').replaceWith(this.views.searchResults.render().el);
         }
     };
 

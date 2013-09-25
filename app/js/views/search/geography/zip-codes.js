@@ -27,8 +27,8 @@ function ($, _, Backbone, Alert, AlertView, UploadView, ManualView, template) {
 
         render: function () {
             this.$el.empty().append(this.template(this.search.toJSON()));
-            this.$('#geographyZipCodesManualContainer').replaceWith(this.manualView.render().el);
             this.$('#geographyZipCodesUploadContainer').replaceWith(this.uploadView.render().el);
+            this.$('#geographyZipCodesManualContainer').replaceWith(this.manualView.render().el);
             return this;
         }
 

@@ -1,3 +1,21 @@
+/*
+#geographyZipCodes {
+    border:5px solid red;
+}
+    #geographyZipCodesUpload {
+        border:1px solid red;
+    }
+    #geographyZipCodesManual {
+        border:1px solid red;
+    }
+#geographySelections {
+    border:5px solid green;
+}
+#searchResults {
+    border:5px solid blue;
+}
+*/
+
 input[type=file] {
     display:none;
 }
