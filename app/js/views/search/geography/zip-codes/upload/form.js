@@ -21,8 +21,7 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
             'submit form':          'validateFile',
             'click .browse':        'browseFiles',
             'click .cancel':        'detachFile',
-            'click .help':          'showDialog',
-            'click .modal-cancel':  'hideDialog'
+            'click .help':          'showDialog'
         },
 
         initialize: function (search, uploads, alert) {
@@ -138,17 +137,10 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
         },
 
         showDialog: function (e) {
-            var modal = new Modal();
-
             e.preventDefault();
-            modal.set('content', config.modals[0]);
-            this.modalView = new ModalView(modal);
-            $('.modalContainer').empty().append(this.modalView.render().el);
-        },
-
-        hideDialog: function (e) {
-            e.preventDefault();
-            this.modalView.$el.modal('hide');
+            $('.modalContainer').html(new ModalView(new Modal({
+                content: config.modals[0]
+            })).render().el);
         },
 
         isValidFileExt: function (validFileExts, fileName) {

@@ -13,7 +13,8 @@ function ($, _, Backbone, template) {
         template: _.template($(template).html()),
 
         events: {
-            'click .close': 'close'
+            'click .close': 'close',
+            'click .modal-cancel': 'close'
         },
 
         initialize: function (modal) {

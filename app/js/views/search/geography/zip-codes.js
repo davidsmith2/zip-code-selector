@@ -21,14 +21,12 @@ function ($, _, Backbone, Alert, AlertView, UploadView, ManualView, template) {
         initialize: function (search, uploads) {
             this.search = search;
             this.uploads = uploads;
-            this.uploadView = new UploadView(this.search, this.uploads, new Alert());
-            this.manualView = new ManualView(this.search, new Alert());
         },
 
         render: function () {
             this.$el.empty().append(this.template(this.search.toJSON()));
-            this.$('#geographyZipCodesUploadContainer').replaceWith(this.uploadView.render().el);
-            this.$('#geographyZipCodesManualContainer').replaceWith(this.manualView.render().el);
+            this.$('#geographyZipCodesUploadContainer').replaceWith(new UploadView(this.search, this.uploads, new Alert()).render().el);
+            this.$('#geographyZipCodesManualContainer').replaceWith(new ManualView(this.search, new Alert()).render().el);
             return this;
         }
 
