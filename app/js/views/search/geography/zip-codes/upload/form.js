@@ -25,9 +25,9 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
             'click .modal-cancel':  'hideDialog'
         },
 
-        initialize: function (uploads, search, alert) {
-            this.uploads = uploads;
+        initialize: function (search, uploads, alert) {
             this.search = search;
+            this.uploads = uploads;
             this.alert = alert;
             this.listenTo(this.search, 'change:zipCodeFile', this.render);
             this.listenTo(this.alert, 'change', this.render);

@@ -3,18 +3,16 @@ define([
     'underscore',
     'backbone',
     'config',
-    'models/alert',
-    'models/search',
     'collections/searches',
     'collections/students',
     'collections/uploads',
-    'views/search/results/view',
+    'models/search',
+    'views/search/geography/zip-codes',
     'views/search/geography/selections',
-    'views/search/geography/zip-codes/upload/form',
-    'views/search/geography/zip-codes/manual/form'
+    'views/search/results/view'
 ],
 
-function ($, _, Backbone, config, Alert, Search, Searches, Students, Uploads, SearchResultsView, SelectionsView, UploadView, ManualView) {
+function ($, _, Backbone, config, Searches, Students, Uploads, Search, ZipCodesView, SelectionsView, SearchResultsView) {
 
     var App = function () {
 
@@ -27,29 +25,26 @@ function ($, _, Backbone, config, Alert, Search, Searches, Students, Uploads, Se
         this.models.search = new Search();
 
         // views
-        this.views.uploadView = new UploadView(this.collections.uploads, this.models.search, new Alert());
-        this.views.manualView = new ManualView(this.models.search, new Alert());
-        this.views.searchResultsView = new SearchResultsView(this.models.search, this.collections.students, this.collections.searches);
+        this.views.zipCodesView = new ZipCodesView(this.models.search, this.collections.uploads);
         this.views.selectionsView = new SelectionsView(this.models.search);
+        this.views.searchResultsView = new SearchResultsView(this.models.search, this.collections.students, this.collections.searches);
 
         // populate collections and define callbacks
         this.collections.students.add(config.students);
         this.collections.searches.on('sync', this.showSearchResultsView, this).fetch({reset: true});
-        this.collections.uploads.on('sync', this.showUploadView, this).fetch({reset: true});
+        this.collections.uploads.on('sync', this.showZipCodesView, this).fetch({reset: true});
 
         // render initial views
-        $('#geographyZipCodesManualContainer').replaceWith(this.views.manualView.render().el);
         $('#geographySelectionsContainer').replaceWith(this.views.selectionsView.render().el);
 
-        console.log(this);
     };
 
     App.prototype = {
         collections: {},
         models: {},
         views: {},
-        showUploadView: function () {
-            $('#geographyZipCodesUploadContainer').replaceWith(this.views.uploadView.render().el);
+        showZipCodesView: function () {
+            $('#geographyZipCodesContainer').replaceWith(this.views.zipCodesView.render().el);
         },
         showSearchResultsView: function () {
             $('#searchResultsContainer').replaceWith(this.views.searchResultsView.render().el);
