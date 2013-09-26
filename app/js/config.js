@@ -91,7 +91,8 @@ function () {
             inputsPerRow: 5,
             minInputs: 15,
             maxInputs: maxInputs,
-            addRows: 1
+            addRows: 1,
+            noFileChosen: 'Select file'
         }
 
     };

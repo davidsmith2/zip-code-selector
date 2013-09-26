@@ -34,10 +34,7 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
         },
 
         render: function () {
-            this.$fileInput = this.$('input[name=file]');
-
             this.$el.empty().append(this.template(this.search.toJSON()));
-            this.$('input[name=file]').replaceWith(this.$fileInput);
             this.$('.alertContainer').empty().append(new AlertView(this.alert).render().el);
             return this;
         },
@@ -50,26 +47,14 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
         },
 
         handleFileSelect: function (e) {
-            var filePath = this.$('input[name=file]').val(),
-                fileName = this.getFileName(filePath);
-
-            this.search.set('zipCodeFile', filePath);
+            this.$('.fileName').text(this.getFileInfo($(e.target))['name']);
         },
 
         detachFile: function (e) {
-            var fileName = this.search.get('zipCodeFile'),
-                file = this.uploads.findWhere({name: fileName});
-
             e.preventDefault();
-            if (file) {
-                file.destroy();
-            }
-            this.search.set({
-                zipCodeFile: '',
-                zipCodes: []
-            });
+            this.search.set('zipCodes', []);
             this.alert.set(this.alert.defaults);
-            this.$fileInput.val('');
+            this.$('input[name=file]').val('').trigger('change');
         },
 
         validateFile: function (e) {
@@ -81,14 +66,13 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
         },
 
         isValidFile: function () {
-            var fileName = this.search.get('zipCodeFile'),
-                validFileExts = this.$fileInput.attr('accepts').split(',');
+            var fileInfo = this.getFileInfo(this.$('input[name=file]'));
 
-            if (!fileName) {
+            if (!fileInfo.name) {
                 this.alert.set(config.alerts[0]);
                 return false;
             }
-            if (!this.isValidFileExt(validFileExts, fileName)) {
+            if (!this.isValidFileExt(fileInfo.validExts, fileInfo.name)) {
                 this.alert.set(config.alerts[1]);
                 return false;
             }
@@ -143,6 +127,7 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
                     connotation: 'success',
                     content: response.successMessage
                 });
+                this.$('.fileName').text(this.search.get('zipCodeFile'));
             }
 
             if (response.warningMessage) {
@@ -171,6 +156,18 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
 
         getFileExt: function (fileName) {
             return (fileName !== '') ? fileName.split('.').pop().toLowerCase() : '';
+        },
+
+        getFileInfo: function ($input) {
+            var path = $input.val(),
+                name = this.getFileName(path),
+                validExts = $input.attr('accepts').split(',');
+
+            return {
+                path: path,
+                name: name,
+                validExts: validExts
+            };
         }
 
     });

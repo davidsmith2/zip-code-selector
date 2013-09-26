@@ -3,20 +3,19 @@
     <p>To add more than 50 ZIP codes at once, upload a text (.txt) file.</p>
     <form enctype="multipart/form-data" id="geographyZipCodesUploadForm" name="geographyZipCodesUploadForm">
         <div>
-            <% if (!zipCodeFile) { %>
-                Select file
+            <span class="fileName">Select file</span>
+            <% if (!zipCodes.length) { %>
                 <button class="btn browse">Browse</button>
             <% } else { %>
-                <%= zipCodeFile %>
                 <button class="btn browse">Change</button>
                 <button class="btn cancel">Cancel</button>
-                <div>
-                    <button class="btn btn-primary" type="submit">Upload</button>
-                </div>
             <% } %>
         </div>
         <div>
             <a class="help" href="#">Get ZIP loader tips</a>
+        </div>
+        <div>
+            <button class="btn btn-primary" type="submit">Upload</button>
         </div>
         <div class="progress hide">
             <div class="bar">
