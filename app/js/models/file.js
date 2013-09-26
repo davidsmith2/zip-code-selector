@@ -8,7 +8,9 @@ function (_, Backbone) {
     var File = Backbone.Model.extend({
 
         defaults: {
-            name: ''
+            name: '',
+            path: '',
+            extension: ''
         },
 
         parse: function (response) {

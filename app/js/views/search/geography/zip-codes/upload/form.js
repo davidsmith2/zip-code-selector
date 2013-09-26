@@ -18,10 +18,11 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
         template: _.template($(template).html()),
 
         events: {
-            'submit form':          'validateFile',
-            'click .browse':        'browseFiles',
-            'click .cancel':        'detachFile',
-            'click .help':          'showDialog'
+            'click .browse':            'browseFiles',
+            'change input[name=file]':  'handleFileSelect',
+            'click .cancel':            'detachFile',
+            'submit form':              'validateFile',
+            'click .help':              'showDialog'
         },
 
         initialize: function (search, uploads, alert) {
@@ -33,9 +34,42 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
         },
 
         render: function () {
+            this.$fileInput = this.$('input[name=file]');
+
             this.$el.empty().append(this.template(this.search.toJSON()));
+            this.$('input[name=file]').replaceWith(this.$fileInput);
             this.$('.alertContainer').empty().append(new AlertView(this.alert).render().el);
             return this;
+        },
+
+        browseFiles: function (e) {
+            var self = this;
+
+            e.preventDefault();
+            this.$('input[name=file]').trigger('click');
+        },
+
+        handleFileSelect: function (e) {
+            var filePath = this.$('input[name=file]').val(),
+                fileName = this.getFileName(filePath);
+
+            this.search.set('zipCodeFile', filePath);
+        },
+
+        detachFile: function (e) {
+            var fileName = this.search.get('zipCodeFile'),
+                file = this.uploads.findWhere({name: fileName});
+
+            e.preventDefault();
+            if (file) {
+                file.destroy();
+            }
+            this.search.set({
+                zipCodeFile: '',
+                zipCodes: []
+            });
+            this.alert.set(this.alert.defaults);
+            this.$fileInput.val('');
         },
 
         validateFile: function (e) {
@@ -47,20 +81,17 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
         },
 
         isValidFile: function () {
-            var fileInput = this.$('input[type=file]'),
-                fileName = fileInput.val(),
-                validFileExts = fileInput.attr('accepts').split(',');
+            var fileName = this.search.get('zipCodeFile'),
+                validFileExts = this.$fileInput.attr('accepts').split(',');
 
             if (!fileName) {
                 this.alert.set(config.alerts[0]);
                 return false;
             }
-
             if (!this.isValidFileExt(validFileExts, fileName)) {
                 this.alert.set(config.alerts[1]);
                 return false;
             }
-
             return true;
         },
 
@@ -123,23 +154,6 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
             }
         },
 
-        browseFiles: function (e) {
-            e.preventDefault();
-            this.$('input[type=file]').trigger('click');
-        },
-
-        detachFile: function (e) {
-            var fileName = this.search.get('zipCodeFile');
-
-            e.preventDefault();
-            this.uploads.findWhere({name: fileName}).destroy();
-            this.search.set({
-                zipCodeFile: '',
-                zipCodes: []
-            });
-            this.alert.set(this.alert.defaults);
-        },
-
         showDialog: function (e) {
             e.preventDefault();
             $('.modalContainer').html(new ModalView(new Modal({
@@ -149,6 +163,10 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
 
         isValidFileExt: function (validFileExts, fileName) {
             return _.contains(validFileExts, this.getFileExt(fileName));
+        },
+
+        getFileName: function (filePath) {
+            return filePath.split('\\').pop();
         },
 
         getFileExt: function (fileName) {

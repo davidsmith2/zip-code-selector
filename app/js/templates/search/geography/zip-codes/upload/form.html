@@ -1,6 +1,6 @@
 <script id="geographyZipCodesUploadTemplate" type="text/template">
     <h4>ZIP loader</h4>
-    <p>To add more than 50 ZIP codes at once, upload a Microsoft Excel, .txt, .csv or .tsv file.</p>
+    <p>To add more than 50 ZIP codes at once, upload a text (.txt) file.</p>
     <form enctype="multipart/form-data" id="geographyZipCodesUploadForm" name="geographyZipCodesUploadForm">
         <div>
             <% if (!zipCodeFile) { %>
@@ -10,6 +10,9 @@
                 <%= zipCodeFile %>
                 <button class="btn browse">Change</button>
                 <button class="btn cancel">Cancel</button>
+                <div>
+                    <button class="btn btn-primary" type="submit">Upload</button>
+                </div>
             <% } %>
         </div>
         <div>
@@ -19,7 +22,6 @@
             <div class="bar">
             </div>
         </div>
-        <button class="btn btn-primary" type="submit">Upload</button>
         <input accepts="txt" name="file" type="file" />
     </form>
     <div class="alertContainer"></div>
