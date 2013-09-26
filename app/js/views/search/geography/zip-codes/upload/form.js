@@ -30,7 +30,7 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
             this.uploads = uploads;
             this.alert = alert;
             this.listenTo(this.search, 'change:zipCodeFile', this.render);
-            this.listenTo(this.alert, 'change', this.render);
+            this.listenTo(this.alert, 'change:content', this.render);
         },
 
         render: function () {
@@ -134,9 +134,9 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
 
         detachFile: function (e) {
             e.preventDefault();
-            this.$('input[name=file]').val('').trigger('change');
             this.search.set('zipCodes', []);
             this.alert.set(this.alert.defaults);
+            this.$('input[name=file]').val('').trigger('change');
         },
 
         showDialog: function (e) {

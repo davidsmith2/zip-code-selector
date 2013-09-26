@@ -53,3 +53,10 @@ label[for=private] {
 .remove {
     margin:0 0.25em;
 }
+.uneditable-input {
+    margin-top:0.66em;
+}
+.help {
+    display:block;
+    margin-bottom:0.33em;
+}
