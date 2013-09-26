@@ -7,10 +7,11 @@ define([
     'models/modal',
     'views/alert',
     'views/modal',
+    'views/search/geography/zip-codes/upload/input',
     'text!templates/search/geography/zip-codes/upload/form.html'
 ],
 
-function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
+function ($, _, Backbone, config, File, Modal, AlertView, ModalView, UploadInputView, template) {
 
     var UploadView = Backbone.View.extend({
 
@@ -18,68 +19,50 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
         template: _.template($(template).html()),
 
         events: {
-            'click .browse':            'browseFiles',
-            'change input[name=file]':  'handleFileSelect',
-            'click .cancel':            'detachFile',
-            'submit form':              'validateFile',
+            'click .attach':            'attachFile',
+            'change input[name=file]':  'handleFileSelection',
+            'click .detach':            'detachFile',
             'click .help':              'showDialog'
         },
 
-        initialize: function (search, uploads, alert) {
-            this.search = search;
+        initialize: function (uploads, alert) {
             this.uploads = uploads;
             this.alert = alert;
-            this.listenTo(this.search, 'change:zipCodeFile', this.render);
-            this.listenTo(this.alert, 'change:content', this.render);
+            this.file = new File();
         },
 
         render: function () {
-            this.$el.empty().append(this.template(this.search.toJSON()));
+            this.$el.empty().append(this.template(this.file.toJSON()), this.fileInput);
             this.$('.alertContainer').empty().append(new AlertView(this.alert).render().el);
+            this.$('#geographyZipCodesUploadInputContainer').replaceWith(new UploadInputView(this.file).render().el);
             return this;
         },
 
-        browseFiles: function (e) {
-            var self = this;
-
+        attachFile: function (e) {
             e.preventDefault();
             this.$('input[name=file]').trigger('click');
         },
 
-        handleFileSelect: function (e) {
-            this.$('.fileName').text(this.getFileInfo($(e.target))['name']);
+        handleFileSelection: function (e) {
+            this.file.set(this.getFileInfo($(e.target)));
+
+            if (this.file.isValid()) {
+                this.uploadFile();
+            } else {
+                this.alert.set(this.file.validationError);
+                this.$('.detach').trigger('click');
+            }
+
         },
 
-        validateFile: function (e) {
-            e.preventDefault();
-
-            if (this.isValidFile()) {
-                this.uploadFile(e.target);
-            }
-        },
-
-        isValidFile: function () {
-            var fileInfo = this.getFileInfo(this.$('input[name=file]'));
-
-            if (!fileInfo.name) {
-                this.alert.set(config.alerts[0]);
-                return false;
-            }
-            if (!this.isValidFileExt(fileInfo.validExts, fileInfo.name)) {
-                this.alert.set(config.alerts[1]);
-                return false;
-            }
-            return true;
-        },
-
-        uploadFile: function (form) {
-            var $form = $(form),
-                progress = this.$('.progress'),
+        uploadFile: function () {
+            var progress = this.$('.progress'),
                 bar = this.$('.bar'),
                 self = this;
 
             require(['jqueryForm'], function ($) {
-                $form.ajaxSubmit({
+
+                this.$('form').ajaxSubmit({
                     url: '/api/uploads',
                     type: 'post',
                     beforeSend: function () {
@@ -112,15 +95,11 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
 
             if (response.successMessage) {
                 this.uploads.add(data);
-                this.search.set({
-                    zipCodeFile: response.fileName,
-                    zipCodes: response.zipCodes
-                });
                 this.alert.set({
                     connotation: 'success',
                     content: response.successMessage
                 });
-                this.$('.fileName').text(this.search.get('zipCodeFile'));
+                this.trigger('attached', response)
             }
 
             if (response.warningMessage) {
@@ -134,9 +113,10 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
 
         detachFile: function (e) {
             e.preventDefault();
-            this.search.set('zipCodes', []);
+            this.file.set('name', '');
             this.alert.set(this.alert.defaults);
             this.$('input[name=file]').val('').trigger('change');
+            this.trigger('detached');
         },
 
         showDialog: function (e) {
@@ -146,28 +126,19 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
             })).render().el);
         },
 
-        isValidFileExt: function (validFileExts, fileName) {
-            return _.contains(validFileExts, this.getFileExt(fileName));
-        },
-
-        getFileName: function (filePath) {
-            return filePath.split('\\').pop();
-        },
-
-        getFileExt: function (fileName) {
-            return (fileName !== '') ? fileName.split('.').pop().toLowerCase() : '';
-        },
-
-        getFileInfo: function ($input) {
-            var path = $input.val(),
-                name = this.getFileName(path),
-                validExts = $input.attr('accepts').split(',');
+        getFileInfo: function ($fileInput) {
+            var path = $fileInput.val(),
+                name = this.file.getName(path),
+                extension = this.file.getExtension(name),
+                validExtensions = $fileInput.attr('accepts').split(',');
 
             return {
-                path: path,
                 name: name,
-                validExts: validExts
+                extension: extension,
+                path: path,
+                validExtensions: validExtensions
             };
+
         }
 
     });

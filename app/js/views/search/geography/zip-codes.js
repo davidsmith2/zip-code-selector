@@ -21,13 +21,40 @@ function ($, _, Backbone, Alert, AlertView, UploadView, ManualView, template) {
         initialize: function (search, uploads) {
             this.search = search;
             this.uploads = uploads;
+            this.uploadView = new UploadView(this.uploads, new Alert());
+            this.manualView = new ManualView(new Alert());
+            this.uploadView.on('attached', this.onAttach, this);
+            this.uploadView.on('detached', this.onDetach, this);
+            this.manualView.on('entered', this.onEnter, this);
         },
 
         render: function () {
-            this.$el.empty().append(this.template(this.search.toJSON()));
-            this.$('#geographyZipCodesUploadContainer').replaceWith(new UploadView(this.search, this.uploads, new Alert()).render().el);
-            this.$('#geographyZipCodesManualContainer').replaceWith(new ManualView(this.search, new Alert()).render().el);
+            this.$el.empty().append(this.template());
+            this.$('#geographyZipCodesUploadContainer').replaceWith(this.uploadView.render().el);
+            this.$('#geographyZipCodesManualContainer').replaceWith(this.manualView.render().el);
             return this;
+        },
+
+        onAttach: function (response) {
+            this.search.set({
+                zipCodeFile: response.fileName,
+                zipCodes: response.zipCodes
+            });
+        },
+
+        onDetach: function () {
+            this.search.set({
+                zipCodeFile: '',
+                zipCodes: []
+            });
+        },
+
+        onEnter: function (zipCodes) {
+            var self = this;
+
+            _.each(zipCodes, function (zipCode) {
+                self.search.addToZipCodes(zipCode);
+            });
         }
 
     });

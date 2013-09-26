@@ -17,7 +17,7 @@
 */
 
 input[type=file] {
-    display:none;
+    /* display:none; */
 }
 label[for=private] {
     display:inline;

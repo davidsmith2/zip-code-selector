@@ -21,10 +21,8 @@ function ($, _, Backbone, config, AlertView, ManualInputView, template) {
             'submit #geographyZipCodesManualForm': 'submitForm'
         },
 
-        initialize: function (search, alert) {
-            this.search = search;
+        initialize: function (alert) {
             this.alert = alert;
-            this.listenTo(this.search, 'change:zipCodeFile', this.render);
         },
 
         render: function () {
@@ -58,8 +56,7 @@ function ($, _, Backbone, config, AlertView, ManualInputView, template) {
 
         renderInput: function (inputNum) {
             return new ManualInputView({
-                inputNum: inputNum,
-                zipCodeFile: this.search.get('zipCodeFile')
+                inputNum: inputNum
             }).render().el;
         },
 
@@ -82,15 +79,11 @@ function ($, _, Backbone, config, AlertView, ManualInputView, template) {
         },
 
         submitForm: function (e) {
-            var $inputs = this.$('input[type=text]'),
-                zipCodes = [],
-                self = this;
+            var $textInputs = this.$('input[type=text]');
 
             e.preventDefault();
-            _.each(this.getUniqueZipCodes($inputs), function (zipCode) {
-                self.search.addToZipCodes(zipCode);
-            });
-            $inputs.val('');
+            this.trigger('entered', this.getUniqueZipCodes($textInputs));
+            $textInputs.val();
         },
 
         getUniqueZipCodes: function ($elements) {
