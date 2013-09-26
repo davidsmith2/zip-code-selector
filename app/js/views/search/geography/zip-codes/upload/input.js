@@ -11,7 +11,10 @@ function ($, _, Backbone, template) {
 
         template: _.template($(template).html()),
 
-        events: {},
+        events: {
+            'click .attach': 'attachFile',
+            'click .detach': 'detachFile'
+        },
 
         initialize: function (file) {
             this.file = file;
@@ -21,6 +24,17 @@ function ($, _, Backbone, template) {
         render: function () {
             this.$el.empty().append(this.template(this.file.toJSON()));
             return this;
+        },
+
+        attachFile: function (e) {
+            e.preventDefault();
+            this.trigger('attach');
+        },
+
+        detachFile: function (e) {
+            e.preventDefault();
+            this.file.set('name', '');
+            this.trigger('detach');
         }
 
     });

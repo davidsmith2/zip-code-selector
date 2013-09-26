@@ -3,6 +3,7 @@ define([
     'underscore',
     'backbone',
     'config',
+    'models/alert',
     'models/file',
     'models/modal',
     'views/alert',
@@ -11,7 +12,7 @@ define([
     'text!templates/search/geography/zip-codes/upload/form.html'
 ],
 
-function ($, _, Backbone, config, File, Modal, AlertView, ModalView, UploadInputView, template) {
+function ($, _, Backbone, config, Alert, File, Modal, AlertView, ModalView, UploadInputView, template) {
 
     var UploadView = Backbone.View.extend({
 
@@ -19,27 +20,28 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, UploadInput
         template: _.template($(template).html()),
 
         events: {
-            'click .attach':            'attachFile',
             'change input[name=file]':  'handleFileSelection',
-            'click .detach':            'detachFile',
             'click .help':              'showDialog'
         },
 
-        initialize: function (alert) {
-            this.alert = alert;
+        initialize: function () {
+            this.alert = new Alert();
+            this.modal = new Modal({
+                content: config.modals[0]
+            });
             this.file = new File();
+            this.alertView = new AlertView(this.alert);
+            this.modalView = new ModalView(this.modal);
+            this.uploadInputView = new UploadInputView(this.file);
+            this.uploadInputView.on('attach', this.onAttach, this);
+            this.uploadInputView.on('detach', this.onDetach, this);
         },
 
         render: function () {
             this.$el.empty().append(this.template(this.file.toJSON()), this.fileInput);
-            this.$('.alertContainer').empty().append(new AlertView(this.alert).render().el);
-            this.$('#geographyZipCodesUploadInputContainer').replaceWith(new UploadInputView(this.file).render().el);
+            this.$('.alertContainer').empty().append(this.alertView.render().el);
+            this.$('#geographyZipCodesUploadInputContainer').replaceWith(this.uploadInputView.render().el);
             return this;
-        },
-
-        attachFile: function (e) {
-            e.preventDefault();
-            this.$('input[name=file]').trigger('click');
         },
 
         handleFileSelection: function (e) {
@@ -109,19 +111,9 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, UploadInput
             }
         },
 
-        detachFile: function (e) {
-            e.preventDefault();
-            this.file.set('name', '');
-            this.alert.set(this.alert.defaults);
-            this.$('input[name=file]').val('').trigger('change');
-            this.trigger('detached');
-        },
-
         showDialog: function (e) {
             e.preventDefault();
-            $('.modalContainer').html(new ModalView(new Modal({
-                content: config.modals[0]
-            })).render().el);
+            $('.modalContainer').html(this.modalView.render().el);
         },
 
         getFileInfo: function ($fileInput) {
@@ -137,6 +129,16 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, UploadInput
                 validExtensions: validExtensions
             };
 
+        },
+
+        onAttach: function () {
+            this.$('input[name=file]').trigger('click');
+        },
+
+        onDetach: function () {
+            this.$('input[name=file]').val('').trigger('change');
+            this.alert.set(this.alert.defaults);
+            this.trigger('detached');
         }
 
     });

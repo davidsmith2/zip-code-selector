@@ -2,14 +2,12 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'models/alert',
-    'views/alert',
     'views/search/geography/zip-codes/upload/form',
     'views/search/geography/zip-codes/manual/form',
     'text!templates/search/geography/zip-codes.html'
 ],
 
-function ($, _, Backbone, Alert, AlertView, UploadView, ManualView, template) {
+function ($, _, Backbone, UploadView, ManualView, template) {
 
     var ZipCodesView = Backbone.View.extend({
 
@@ -19,12 +17,12 @@ function ($, _, Backbone, Alert, AlertView, UploadView, ManualView, template) {
         events: {},
 
         initialize: function (search) {
+            this.uploadView = new UploadView();
+            this.manualView = new ManualView();
             this.search = search;
-            this.uploadView = new UploadView(new Alert());
-            this.manualView = new ManualView(new Alert());
-            this.uploadView.on('attached', this.onAttach, this);
-            this.uploadView.on('detached', this.onDetach, this);
-            this.manualView.on('entered', this.onEnter, this);
+            this.uploadView.on('attached', this.onAttached, this);
+            this.uploadView.on('detached', this.onDetached, this);
+            this.manualView.on('entered', this.onEntered, this);
         },
 
         render: function () {
@@ -34,21 +32,21 @@ function ($, _, Backbone, Alert, AlertView, UploadView, ManualView, template) {
             return this;
         },
 
-        onAttach: function (response) {
+        onAttached: function (response) {
             this.search.set({
                 zipCodeFile: response.fileName,
                 zipCodes: response.zipCodes
             });
         },
 
-        onDetach: function () {
+        onDetached: function () {
             this.search.set({
                 zipCodeFile: '',
                 zipCodes: []
             });
         },
 
-        onEnter: function (zipCodes) {
+        onEntered: function (zipCodes) {
             var self = this;
 
             _.each(zipCodes, function (zipCode) {

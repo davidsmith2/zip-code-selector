@@ -3,12 +3,13 @@ define([
     'underscore',
     'backbone',
     'config',
+    'models/alert',
     'views/alert',
     'views/search/geography/zip-codes/manual/input',
     'text!templates/search/geography/zip-codes/manual/form.html'
 ],
 
-function ($, _, Backbone, config, AlertView, ManualInputView, template) {
+function ($, _, Backbone, config, Alert, AlertView, ManualInputView, template) {
 
     var rowNum = 0,
         ManualView = Backbone.View.extend({
@@ -21,8 +22,9 @@ function ($, _, Backbone, config, AlertView, ManualInputView, template) {
             'submit form': 'submitForm'
         },
 
-        initialize: function (alert) {
-            this.alert = alert;
+        initialize: function () {
+            this.alert = new Alert();
+            this.alertView = new AlertView(this.alert);
         },
 
         render: function () {
@@ -30,7 +32,7 @@ function ($, _, Backbone, config, AlertView, ManualInputView, template) {
 
             this.$el.empty().append(this.template());
             this.renderRows(numRows);
-            this.$('.alertContainer').empty().append(new AlertView(this.alert).render().el);
+            this.$('.alertContainer').empty().append(this.alertView.render().el);
             return this;
         },
 
