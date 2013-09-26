@@ -18,10 +18,9 @@ function ($, _, Backbone, Alert, AlertView, UploadView, ManualView, template) {
 
         events: {},
 
-        initialize: function (search, uploads) {
+        initialize: function (search) {
             this.search = search;
-            this.uploads = uploads;
-            this.uploadView = new UploadView(this.uploads, new Alert());
+            this.uploadView = new UploadView(new Alert());
             this.manualView = new ManualView(new Alert());
             this.uploadView.on('attached', this.onAttach, this);
             this.uploadView.on('detached', this.onDetach, this);

@@ -8,6 +8,8 @@ function (_, Backbone, config) {
     
     var File = Backbone.Model.extend({
 
+        url: '/api/uploads',
+        
         defaults: {
             name: '',
             path: '',

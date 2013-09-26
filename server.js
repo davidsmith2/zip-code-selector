@@ -225,19 +225,6 @@ function addFile (request, response) {
 
     if (mimes.indexOf(fileType > -1)) {
 
-        file = new FileModel({
-            name: fileName,
-            type: fileType
-        });
-
-        file.save(function (error) {
-            if (!error) {
-                return console.log('file created');
-            } else {
-                return console.log(error);
-            }
-        });
-
         fs.readFile(filePath, function (error, data) {
             var zipCodes = [],
                 numZipCodes = 0;

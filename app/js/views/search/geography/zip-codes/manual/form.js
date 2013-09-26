@@ -17,8 +17,8 @@ function ($, _, Backbone, config, AlertView, ManualInputView, template) {
         template: _.template($(template).html()),
 
         events: {
-            'click #addInputs': 'addInputs',
-            'submit #geographyZipCodesManualForm': 'submitForm'
+            'click .add': 'addInputs',
+            'submit form': 'submitForm'
         },
 
         initialize: function (alert) {

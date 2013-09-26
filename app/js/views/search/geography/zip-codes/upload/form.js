@@ -25,8 +25,7 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, UploadInput
             'click .help':              'showDialog'
         },
 
-        initialize: function (uploads, alert) {
-            this.uploads = uploads;
+        initialize: function (alert) {
             this.alert = alert;
             this.file = new File();
         },
@@ -94,7 +93,6 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, UploadInput
             var response = $.parseJSON(responseText);
 
             if (response.successMessage) {
-                this.uploads.add(data);
                 this.alert.set({
                     connotation: 'success',
                     content: response.successMessage
