@@ -50,13 +50,6 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
             this.$('.fileName').text(this.getFileInfo($(e.target))['name']);
         },
 
-        detachFile: function (e) {
-            e.preventDefault();
-            this.search.set('zipCodes', []);
-            this.alert.set(this.alert.defaults);
-            this.$('input[name=file]').val('').trigger('change');
-        },
-
         validateFile: function (e) {
             e.preventDefault();
 
@@ -137,6 +130,13 @@ function ($, _, Backbone, config, File, Modal, AlertView, ModalView, template) {
             if (response.alertMessage) {
                 this.alert.set(config.alerts[4]);
             }
+        },
+
+        detachFile: function (e) {
+            e.preventDefault();
+            this.$('input[name=file]').val('').trigger('change');
+            this.search.set('zipCodes', []);
+            this.alert.set(this.alert.defaults);
         },
 
         showDialog: function (e) {
