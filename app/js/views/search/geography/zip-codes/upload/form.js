@@ -53,7 +53,6 @@ function ($, _, Backbone, config, Alert, File, Modal, AlertView, ModalView, Uplo
             if (this.file.isValid()) {
                 this.uploadFile();
             } else {
-                this.file.reset();
                 this.alert.set(this.file.validationError);
             }
 
@@ -140,6 +139,7 @@ function ($, _, Backbone, config, Alert, File, Modal, AlertView, ModalView, Uplo
 
         onDetach: function () {
             this.alert.reset();
+            this.$('input[name=file]').val('');
             this.trigger('detached');
         }
 

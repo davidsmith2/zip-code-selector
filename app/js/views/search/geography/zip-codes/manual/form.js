@@ -38,7 +38,7 @@ function ($, _, Backbone, config, Alert, AlertView, ManualInputView, template) {
 
         renderRows: function (numRows) {
             for (var i = 0; i < numRows; i++) {
-                this.$('#geographyZipCodesManualInputs').append(this.renderRow(rowNum++));
+                this.$('form > fieldset').append(this.renderRow(rowNum++));
             }
         },
 
@@ -98,6 +98,14 @@ function ($, _, Backbone, config, Alert, AlertView, ManualInputView, template) {
             });
 
             return _.uniq(array);
+        },
+
+        disable: function () {
+            this.$('button[type=submit]').attr('disabled', 'disabled');
+        },
+
+        enable: function () {
+            this.$('button[type=submit]').removeAttr('disabled');
         }
 
     });

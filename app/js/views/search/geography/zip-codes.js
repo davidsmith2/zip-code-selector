@@ -37,6 +37,7 @@ function ($, _, Backbone, UploadView, ManualView, template) {
                 zipCodeFile: response.fileName,
                 zipCodes: response.zipCodes
             });
+            this.manualView.disable();
         },
 
         onDetached: function () {
@@ -44,6 +45,7 @@ function ($, _, Backbone, UploadView, ManualView, template) {
                 zipCodeFile: '',
                 zipCodes: []
             });
+            this.manualView.enable();
         },
 
         onEntered: function (zipCodes) {
