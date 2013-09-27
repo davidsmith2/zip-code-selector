@@ -16,40 +16,41 @@ function ($, _, Backbone, config, template) {
             'click .close': 'close'
         },
 
-        initialize: function (alert) {
-            this.alert = alert;
-            this.listenTo(this.alert, 'change', this.render);
+        initialize: function (model) {
+            this.model = model;
+            this.listenTo(this.model, 'change', this.render);
         },
 
         render: function () {
             var self = this;
-
-            if (this.alert.get('content')) {
-                this.$el.addClass('alert');
-            }
-
-            if (this.alert.get('connotation')) {
-                this.$el.addClass('alert-' + this.alert.get('connotation'));
-            }
-
-            if (this.alert.get('block')) {
-                this.$el.addClass('alert-block');
-            }
-
+            
             require(['bootstrapAlert'], function ($) {
-                self.$el.empty().append(self.template(self.alert.toJSON())).alert();
-            });
+                self.$el
+                    .removeClass()
+                    .empty()
+                    .append(self
+                        .template(
+                            self.model
+                                .toJSON()
+                            )
+                        )
+                    .alert();
 
+                if (self.model.get('content')) {
+                    self.$el.addClass('alert');
+                }
+                if (self.model.get('connotation')) {
+                    self.$el.addClass('alert-' + self.model.get('connotation'));
+                }
+                if (self.model.get('block')) {
+                    self.$el.addClass('alert-block');
+                }
+            });
             return this;
         },
 
         close: function () {
-            this.reset();
             this.$el.alert('close');
-        },
-
-        reset: function () {
-            this.alert.set(this.alert.defaults);
         }
 
     });

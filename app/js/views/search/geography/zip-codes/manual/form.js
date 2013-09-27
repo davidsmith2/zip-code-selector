@@ -85,7 +85,7 @@ function ($, _, Backbone, config, Alert, AlertView, ManualInputView, template) {
 
             e.preventDefault();
             this.trigger('entered', this.getUniqueZipCodes($textInputs));
-            $textInputs.val();
+            $textInputs.val('');
         },
 
         getUniqueZipCodes: function ($elements) {

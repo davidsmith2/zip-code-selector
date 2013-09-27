@@ -45,13 +45,16 @@ function ($, _, Backbone, config, Alert, File, Modal, AlertView, ModalView, Uplo
         },
 
         handleFileSelection: function (e) {
-            this.file.set(this.getFileInfo($(e.target)));
+            var fileInfo = this.getFileInfo($(e.target));
 
+            this.file.set(fileInfo);
+
+            // validate file based on what we know from client
             if (this.file.isValid()) {
                 this.uploadFile();
             } else {
+                this.file.reset();
                 this.alert.set(this.file.validationError);
-                this.$('.detach').trigger('click');
             }
 
         },
@@ -99,7 +102,7 @@ function ($, _, Backbone, config, Alert, File, Modal, AlertView, ModalView, Uplo
                     connotation: 'success',
                     content: response.successMessage
                 });
-                this.trigger('attached', response)
+                this.trigger('attached', response);
             }
 
             if (response.warningMessage) {
@@ -136,8 +139,7 @@ function ($, _, Backbone, config, Alert, File, Modal, AlertView, ModalView, Uplo
         },
 
         onDetach: function () {
-            this.$('input[name=file]').val('').trigger('change');
-            this.alert.set(this.alert.defaults);
+            this.alert.reset();
             this.trigger('detached');
         }
 

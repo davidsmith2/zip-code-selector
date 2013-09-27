@@ -33,7 +33,7 @@ function ($, _, Backbone, template) {
 
         detachFile: function (e) {
             e.preventDefault();
-            this.file.set('name', '');
+            this.file.reset();
             this.trigger('detach');
         }
 
