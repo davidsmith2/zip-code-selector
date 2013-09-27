@@ -11,10 +11,14 @@
     "mongoose": "latest"
   },
   "devDependencies": {
-    "mocha": "latest",
     "chai": "latest",
     "grunt": "latest",
-    "grunt-exec": "latest"
+    "grunt-exec": "latest",
+    "jasmine": "latest",
+    "mocha": "latest",
+    "sinon": "latest",
+    "sinon-chai": "latest",
+    "testem": "latest"
   },
   "private": true
 }

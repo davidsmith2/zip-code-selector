@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Jasmine Spec Runner</title>
+    <link href="../css/lib/jasmine.css" rel="stylesheet" type="text/css" />
+    <script src="../js/lib/jasmine/jasmine.js"></script>
+    <script src="../js/lib/jasmine/jasmine-html.js"></script>
+    <script src="../js/lib/jquery/jquery-1.9.1.js"></script>
+    <script src="../js/lib/underscore/underscore-min.js"></script>
+    <script src="../js/lib/require.js"></script>
+    <script type="text/javascript">
+
+require.config({
+    baseUrl: '../'
+});
+
+require([
+],
+
+function () {
+
+    $(function () {
+
+/*
+        var jasmineEnv = jasmine.getEnv();
+        var htmlReporter = new jasmine.HtmlReporter();
+        var specs = [];
+
+        jasmineEnv.updateInterval = 1000;
+        jasmineEnv.addReporter(htmlReporter);
+
+        jasmineEnv.specFilter = function (spec) {
+            return htmlReporter.specFilter(spec);
+        }
+
+        specs.push('../js/models/student');
+
+        require(specs, function () {
+            jasmineEnv.execute();
+        });
+*/
+
+    });
+
+});
+    </script>
+</head>
+<body>
+    <div id="sandbox" style="overflow: hidden; height: 1px;"></div>
+</body>
+</html>

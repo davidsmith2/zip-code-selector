@@ -1,4 +1,6 @@
 requirejs.config({
+    baseUrl: '/js/',
+    urlArgs: 'cb=' + Math.random(),
     paths: {
         'jquery':               'lib/jquery/jquery-1.9.1',
         'underscore':           'lib/underscore/underscore-min',
