@@ -17,15 +17,22 @@ function ($, _, Backbone, template) {
             'click .modal-cancel': 'close'
         },
 
-        initialize: function (modal) {
-            this.modal = modal;
+        initialize: function (model) {
+            this.model = model;
         },
 
         render: function () {
             var self = this;
 
             require(['bootstrapModal'], function ($) {
-                self.$el.attr('tabindex', -1).append(self.template(self.modal.toJSON())).modal(self.modal.get('options'));
+                self.$el
+                    .attr('tabindex', -1)
+                    .append(
+                        self.template(
+                            self.model.toJSON()
+                            )
+                        )
+                    .modal(self.model.get('options'));
             });
 
             return this;

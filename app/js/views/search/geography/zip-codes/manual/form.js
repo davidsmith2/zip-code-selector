@@ -18,7 +18,7 @@ function ($, _, Backbone, config, Alert, AlertView, InputView, template) {
         template: _.template($(template).html()),
 
         events: {
-            'click .add': 'addInputs',
+            'click .add': 'addRows',
             'submit form': 'submitForm'
         },
 
@@ -38,7 +38,7 @@ function ($, _, Backbone, config, Alert, AlertView, InputView, template) {
 
         renderRows: function (numRows) {
             for (var i = 0; i < numRows; i++) {
-                this.$('form > fieldset').append(this.renderRow(rowNum++));
+                this.$('form > table').append(this.renderRow(rowNum++));
             }
         },
 
@@ -48,7 +48,7 @@ function ($, _, Backbone, config, Alert, AlertView, InputView, template) {
 
             for (var i = 1; i <= config.manual.inputsPerRow; i++) {
                 if (this.isStartOfRow(i)) {
-                    $html = $('<div />');
+                    $html = $('<tr />');
                 }
                 $html.append(this.renderInput(i + lastInputNum));
             }
@@ -62,7 +62,7 @@ function ($, _, Backbone, config, Alert, AlertView, InputView, template) {
             }).render().el;
         },
 
-        addInputs: function (e) {
+        addRows: function (e) {
             e.preventDefault();
             this.renderRows(config.manual.addRows);
 

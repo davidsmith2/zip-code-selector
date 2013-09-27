@@ -20,9 +20,11 @@ function ($, _, Backbone, UploadView, ManualView, template) {
             this.uploadView = new UploadView();
             this.manualView = new ManualView();
             this.search = search;
-            this.uploadView.on('fileAttached', this.onFileAttached, this);
-            this.uploadView.on('fileDetached', this.onFileDetached, this);
-            this.manualView.on('zipCodesEntered', this.onZipCodesEntered, this);
+            this
+                .listenTo(this.uploadView, 'fileAttached', this.onFileAttached)
+                .listenTo(this.uploadView, 'fileDetached', this.onFileDetached);
+            this
+                .listenTo(this.manualView, 'zipCodesEntered', this.onZipCodesEntered);
         },
 
         render: function () {
@@ -32,10 +34,10 @@ function ($, _, Backbone, UploadView, ManualView, template) {
             return this;
         },
 
-        onFileAttached: function (data) {
+        onFileAttached: function (zipCodeFile) {
             this.search.set({
-                zipCodeFile: data.fileName,
-                zipCodes: data.zipCodes
+                zipCodeFile: zipCodeFile.fileName,
+                zipCodes: zipCodeFile.zipCodes
             });
             this.manualView.disable();
         },

@@ -20,7 +20,9 @@ function ($, _, Backbone, config, Alert, File, Modal, AlertView, ModalView, Inpu
         template: _.template($(template).html()),
 
         events: {
+            'click .attach': 'attachFile',
             'change input[type=file]': 'handleFileSelection',
+            'click .detach': 'detachFile',
             'click .help': 'showDialog'
         },
 
@@ -33,19 +35,17 @@ function ($, _, Backbone, config, Alert, File, Modal, AlertView, ModalView, Inpu
             this.alertView = new AlertView(this.alert);
             this.modalView = new ModalView(this.modal);
             this.inputView = new InputView(this.file);
-            this.inputView.on('attach', this.onAttach, this);
-            this.inputView.on('detach', this.onDetach, this);
         },
 
         render: function () {
             this.$el.empty().append(this.template(this.file.toJSON()), this.fileInput);
             this.$('.alertContainer').empty().append(this.alertView.render().el);
-            this.$('#geographyZipCodesUploadInputContainer').replaceWith(this.inputView.render().el);
+            this.$('form > fieldset').replaceWith(this.inputView.render().el);
             return this;
         },
 
         handleFileSelection: function (e) {
-            this.file.set(this.getFileInfo(this.fileInput));
+            this.file.set(this.getFileInfo($(e.target)));
 
             // validate file based on what we know from client
             if (this.file.isValid()) {
@@ -132,13 +132,16 @@ function ($, _, Backbone, config, Alert, File, Modal, AlertView, ModalView, Inpu
 
         },
 
-        onAttach: function () {
-            this.fileInput = this.$('input[type=file]').trigger('click');
+        attachFile: function (e) {
+            e.preventDefault();
+            this.$('input[type=file]').trigger('click');
         },
 
-        onDetach: function () {
+        detachFile: function (e) {
+            e.preventDefault();
+            this.file.reset();
             this.alert.reset();
-            this.fileInput.val('');
+            this.$('input[type=file]').val('');
             this.trigger('fileDetached');
         }
 

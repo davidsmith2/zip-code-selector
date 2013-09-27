@@ -19,12 +19,12 @@ function ($, _, Backbone, template) {
         initialize: function (search) {
             this.search = search;
             this.listenTo(this.search, 'change', this.render);
-            this.on('render', this.addRemoveItemButtons, this);
         },
 
         render: function () {
             this.$el.empty().append(this.template(this.search.toJSON()));
-            return this.trigger('render');
+            this.addRemoveItemButtons();
+            return this;
         },
 
         addRemoveItemButtons: function () {

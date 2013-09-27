@@ -9,7 +9,7 @@ function ($, _, Backbone, template) {
 
     var InputView = Backbone.View.extend({
 
-        tagName: 'span',
+        tagName: 'td',
         template: _.template($(template).html()),
 
         events: {},

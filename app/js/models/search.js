@@ -10,6 +10,8 @@ function (_, Backbone) {
         defaults: {
             name: '',
             _private: false,
+            resultsCount: 0,
+            resultsPercent: 0,
             zipCodeFile: '',
             zipCodes: []
         },
