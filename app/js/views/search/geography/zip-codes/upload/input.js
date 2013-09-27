@@ -7,7 +7,7 @@ define([
 
 function ($, _, Backbone, template) {
 
-    var UploadInputView = Backbone.View.extend({
+    var InputView = Backbone.View.extend({
 
         template: _.template($(template).html()),
 
@@ -39,6 +39,6 @@ function ($, _, Backbone, template) {
 
     });
 
-    return UploadInputView;
+    return InputView;
 
 });

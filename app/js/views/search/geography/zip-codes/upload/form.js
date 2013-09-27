@@ -12,7 +12,7 @@ define([
     'text!templates/search/geography/zip-codes/upload/form.html'
 ],
 
-function ($, _, Backbone, config, Alert, File, Modal, AlertView, ModalView, UploadInputView, template) {
+function ($, _, Backbone, config, Alert, File, Modal, AlertView, ModalView, InputView, template) {
 
     var UploadView = Backbone.View.extend({
 
@@ -20,8 +20,8 @@ function ($, _, Backbone, config, Alert, File, Modal, AlertView, ModalView, Uplo
         template: _.template($(template).html()),
 
         events: {
-            'change input[name=file]':  'handleFileSelection',
-            'click .help':              'showDialog'
+            'change input[type=file]': 'handleFileSelection',
+            'click .help': 'showDialog'
         },
 
         initialize: function () {
@@ -32,22 +32,20 @@ function ($, _, Backbone, config, Alert, File, Modal, AlertView, ModalView, Uplo
             this.file = new File();
             this.alertView = new AlertView(this.alert);
             this.modalView = new ModalView(this.modal);
-            this.uploadInputView = new UploadInputView(this.file);
-            this.uploadInputView.on('attach', this.onAttach, this);
-            this.uploadInputView.on('detach', this.onDetach, this);
+            this.inputView = new InputView(this.file);
+            this.inputView.on('attach', this.onAttach, this);
+            this.inputView.on('detach', this.onDetach, this);
         },
 
         render: function () {
             this.$el.empty().append(this.template(this.file.toJSON()), this.fileInput);
             this.$('.alertContainer').empty().append(this.alertView.render().el);
-            this.$('#geographyZipCodesUploadInputContainer').replaceWith(this.uploadInputView.render().el);
+            this.$('#geographyZipCodesUploadInputContainer').replaceWith(this.inputView.render().el);
             return this;
         },
 
         handleFileSelection: function (e) {
-            var fileInfo = this.getFileInfo($(e.target));
-
-            this.file.set(fileInfo);
+            this.file.set(this.getFileInfo(this.fileInput));
 
             // validate file based on what we know from client
             if (this.file.isValid()) {
@@ -102,7 +100,7 @@ function ($, _, Backbone, config, Alert, File, Modal, AlertView, ModalView, Uplo
                     connotation: 'success',
                     content: response.successMessage
                 });
-                this.trigger('attached', response);
+                this.trigger('fileAttached', response);
             }
 
             if (response.warningMessage) {
@@ -135,13 +133,13 @@ function ($, _, Backbone, config, Alert, File, Modal, AlertView, ModalView, Uplo
         },
 
         onAttach: function () {
-            this.$('input[name=file]').trigger('click');
+            this.fileInput = this.$('input[type=file]').trigger('click');
         },
 
         onDetach: function () {
             this.alert.reset();
-            this.$('input[name=file]').val('');
-            this.trigger('detached');
+            this.fileInput.val('');
+            this.trigger('fileDetached');
         }
 
     });

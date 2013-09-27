@@ -9,7 +9,7 @@ define([
     'text!templates/search/geography/zip-codes/manual/form.html'
 ],
 
-function ($, _, Backbone, config, Alert, AlertView, ManualInputView, template) {
+function ($, _, Backbone, config, Alert, AlertView, InputView, template) {
 
     var rowNum = 0,
         ManualView = Backbone.View.extend({
@@ -57,7 +57,7 @@ function ($, _, Backbone, config, Alert, AlertView, ManualInputView, template) {
         },
 
         renderInput: function (inputNum) {
-            return new ManualInputView({
+            return new InputView({
                 inputNum: inputNum
             }).render().el;
         },
@@ -84,7 +84,7 @@ function ($, _, Backbone, config, Alert, AlertView, ManualInputView, template) {
             var $textInputs = this.$('input[type=text]');
 
             e.preventDefault();
-            this.trigger('entered', this.getUniqueZipCodes($textInputs));
+            this.trigger('zipCodesEntered', this.getUniqueZipCodes($textInputs));
             $textInputs.val('');
         },
 

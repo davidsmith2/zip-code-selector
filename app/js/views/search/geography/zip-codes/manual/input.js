@@ -7,7 +7,7 @@ define([
 
 function ($, _, Backbone, template) {
 
-    var ManualInputView = Backbone.View.extend({
+    var InputView = Backbone.View.extend({
 
         tagName: 'span',
         template: _.template($(template).html()),
@@ -25,6 +25,6 @@ function ($, _, Backbone, template) {
 
     });
 
-    return ManualInputView;
+    return InputView;
 
 });
