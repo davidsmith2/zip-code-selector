@@ -53,6 +53,7 @@ function ($, _, Backbone, config, Alert, File, Modal, AlertView, ModalView, Uplo
             if (this.file.isValid()) {
                 this.uploadFile();
             } else {
+                this.file.reset();
                 this.alert.set(this.file.validationError);
             }
 
