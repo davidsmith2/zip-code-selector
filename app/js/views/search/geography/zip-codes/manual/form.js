@@ -3,13 +3,14 @@ define([
     'underscore',
     'backbone',
     'config',
+    'collections/zip-codes',
     'models/alert',
     'views/alert',
     'views/search/geography/zip-codes/manual/input',
     'text!templates/search/geography/zip-codes/manual/form.html'
 ],
 
-function ($, _, Backbone, config, Alert, AlertView, InputView, template) {
+function ($, _, Backbone, config, ZipCodes, Alert, AlertView, InputView, template) {
 
     var rowNum = 0,
         ManualView = Backbone.View.extend({
@@ -23,6 +24,7 @@ function ($, _, Backbone, config, Alert, AlertView, InputView, template) {
         },
 
         initialize: function () {
+            this.zipCodes = new ZipCodes();
             this.alert = new Alert();
             this.alertView = new AlertView(this.alert);
         },
@@ -84,7 +86,8 @@ function ($, _, Backbone, config, Alert, AlertView, InputView, template) {
             var $textInputs = this.$('input[type=text]');
 
             e.preventDefault();
-            this.trigger('zipCodesEntered', this.getUniqueZipCodes($textInputs));
+            this.zipCodes.reset(this.getUniqueZipCodes($textInputs));
+            this.trigger('zipCodesEntered', this.zipCodes);
             $textInputs.val('');
         },
 
@@ -94,7 +97,9 @@ function ($, _, Backbone, config, Alert, AlertView, InputView, template) {
             _.each(_.filter($elements, function (element) {
                 return $(element).val();
             }), function (element) {
-                array.push($(element).val());
+                array.push({
+                    base: $(element).val()
+                });
             });
 
             return _.uniq(array);

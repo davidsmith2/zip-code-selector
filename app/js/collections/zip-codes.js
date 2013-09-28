@@ -10,7 +10,7 @@ function (_, Backbone, ZipCode) {
 
         model: ZipCode,
         comparator: function (zipCode) {
-            return zipCode.get('code');
+            return zipCode.get('base');
         }
 
     });

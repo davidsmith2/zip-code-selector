@@ -53,8 +53,8 @@ function ($, _, Backbone, UploadView, ManualView, template) {
         onZipCodesEntered: function (zipCodes) {
             var self = this;
 
-            _.each(zipCodes, function (zipCode) {
-                self.search.addToZipCodes(zipCode);
+            zipCodes.each(function (model) {
+                self.search.addToZipCodes(model.get('base'));
             });
         }
 
