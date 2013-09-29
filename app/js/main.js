@@ -5,10 +5,11 @@ requirejs.config({
         'jquery':               'lib/jquery/jquery-1.9.1',
         'underscore':           'lib/underscore/underscore-min',
         'backbone':             'lib/backbone/backbone-min',
-        'bootstrapTransition':  'lib/bootstrap/bootstrap-transition',
-        'bootstrapAlert':       'lib/bootstrap/bootstrap-alert',
-        'bootstrapModal':       'lib/bootstrap/bootstrap-modal',
-        'jqueryForm':           'lib/jquery/plugins/jquery.form',
+        'backbone-extend':      'lib/backbone/plugins/backbone-extend',
+        'bootstrap-transition': 'lib/bootstrap/bootstrap-transition',
+        'bootstrap-alert':      'lib/bootstrap/bootstrap-alert',
+        'bootstrap-modal':      'lib/bootstrap/bootstrap-modal',
+        'jquery-form':          'lib/jquery/plugins/jquery.form',
         'text':                 'lib/text/text'
     },
 	shim: {
@@ -22,19 +23,30 @@ requirejs.config({
             deps: ['jquery', 'underscore'],
             exports: 'Backbone'
         },
-        'bootstrapTransition': {
+        'backbone-extend': {
+            deps: ['backbone']
+        },
+        'bootstrap-transition': {
             deps: ['jquery']
         },
-        'bootstrapAlert': {
+        'bootstrap-alert': {
             deps: ['jquery']
         },
-        'bootstrapModal': {
-            deps: ['jquery', 'bootstrapTransition']
+        'bootstrap-modal': {
+            deps: ['jquery', 'bootstrap-transition']
         },
-        'jqueryForm': {
+        'jquery-form': {
             deps: ['jquery']
         }
-	}
+	},
+    map: {
+        '*': {
+            'backbone': 'backbone-extend'
+        },
+        'backbone-extend': {
+            'backbone': 'backbone'
+        }
+    }
 });
 
 require(['app'], function (App) {

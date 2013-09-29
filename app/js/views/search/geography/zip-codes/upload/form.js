@@ -62,7 +62,7 @@ function ($, _, Backbone, config, Alert, File, Modal, AlertView, ModalView, Inpu
                 bar = this.$('.bar'),
                 self = this;
 
-            require(['jqueryForm'], function ($) {
+            require(['jquery-form'], function ($) {
 
                 this.$('form').ajaxSubmit({
                     url: '/api/uploads',

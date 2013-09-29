@@ -17,15 +17,6 @@ function (_, Backbone, config) {
             validExtensions: []
         },
 
-        reset: function () {
-            this.set(this.defaults);
-        },
-
-        parse: function (response) {
-            response.id = response._id;
-            return response;
-        },
-
         validate: function (attrs) {
             if (!this.isValidExtension(attrs.validExtensions, attrs.name)) {
                 return config.alerts[1];

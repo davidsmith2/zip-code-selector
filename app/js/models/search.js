@@ -36,11 +36,6 @@ function (_, Backbone) {
             var arr = _.clone(this.get(arg));
             arr.push(val);
             this.set(arg, arr);
-        },
-
-        parse: function (response) {
-            response.id = response._id;
-            return response;
         }
 
     });

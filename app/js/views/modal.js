@@ -24,7 +24,7 @@ function ($, _, Backbone, template) {
         render: function () {
             var self = this;
 
-            require(['bootstrapModal'], function ($) {
+            require(['bootstrap-modal'], function ($) {
                 self.$el
                     .attr('tabindex', -1)
                     .append(

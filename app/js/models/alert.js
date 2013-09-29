@@ -11,10 +11,6 @@ function (_, Backbone) {
             block: false,
             connotation: '',
             content: ''
-        },
-
-        reset: function () {
-            this.set(this.defaults);
         }
 
     });

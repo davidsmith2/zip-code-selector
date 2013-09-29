@@ -24,7 +24,7 @@ function ($, _, Backbone, config, template) {
         render: function () {
             var self = this;
             
-            require(['bootstrapAlert'], function ($) {
+            require(['bootstrap-alert'], function ($) {
                 self.$el
                     .removeClass()
                     .empty()
