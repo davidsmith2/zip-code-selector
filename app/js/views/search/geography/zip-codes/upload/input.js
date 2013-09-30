@@ -13,13 +13,13 @@ function ($, _, Backbone, template) {
 
         events: {},
 
-        initialize: function (file) {
-            this.file = file;
-            this.listenTo(this.file, 'change:name', this.render);
+        initialize: function (model) {
+            this.model = model;
+            this.listenTo(this.model, 'change:name', this.render);
         },
 
         render: function () {
-            this.$el.empty().append(this.template(this.file.toJSON()));
+            this.$el.empty().append(this.template(this.model.toJSON()));
             return this;
         }
 

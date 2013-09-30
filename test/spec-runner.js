@@ -11,6 +11,8 @@ requirejs.config({
         'bootstrap-modal':      'lib/bootstrap/bootstrap-modal',
         'jquery-form':          'lib/jquery/plugins/jquery.form',
         'text':                 'lib/text/text',
+        'jasmine':              '../test/lib/jasmine',
+        'jasmine-html':         '../test/lib/jasmine-html',
         'spec':                 '../test/spec'
     },
 	shim: {
@@ -38,6 +40,13 @@ requirejs.config({
         },
         'jquery-form': {
             deps: ['jquery']
+        },
+        'jasmine': {
+            exports: 'jasmine'
+        },
+        'jasmine-html': {
+            deps: ['jasmine'],
+            exports: 'jasmine'
         }
 	},
     map: {
@@ -50,6 +59,26 @@ requirejs.config({
     }
 });
 
-require(['jquery'], function ($) {
-    console.log($)
+require(['jquery', 'underscore', 'jasmine-html'], function ($, _, jasmine) {
+
+    var jasmineEnv = jasmine.getEnv();
+    jasmineEnv.updateInterval = 1000;
+
+    var htmlReporter = new jasmine.HtmlReporter();
+    jasmineEnv.addReporter(htmlReporter);
+
+    jasmineEnv.specFilter = function (spec) {
+        return htmlReporter.specFilter(spec);
+    };
+
+    var specs = [];
+
+    specs.push('spec/views/search/geography/zip-codes/upload/input.spec');
+
+    $(function () {
+        require(specs, function () {
+            jasmineEnv.execute();
+        });
+    });
+
 });
