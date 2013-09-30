@@ -1,5 +1,6 @@
 requirejs.config({
-    baseUrl: '/js/',
+    baseUrl: '../js/',
+    urlArgs: 'cb=' + Math.random(),
     paths: {
         'jquery':               'lib/jquery/jquery-1.9.1',
         'underscore':           'lib/underscore/underscore-min',
@@ -9,7 +10,8 @@ requirejs.config({
         'bootstrap-alert':      'lib/bootstrap/bootstrap-alert',
         'bootstrap-modal':      'lib/bootstrap/bootstrap-modal',
         'jquery-form':          'lib/jquery/plugins/jquery.form',
-        'text':                 'lib/text/text'
+        'text':                 'lib/text/text',
+        'spec':                 '../test/spec'
     },
 	shim: {
         'jquery': {
@@ -48,6 +50,6 @@ requirejs.config({
     }
 });
 
-require(['app'], function (App) {
-    window.mSSS = new App();
+require(['jquery'], function ($) {
+    console.log($)
 });
