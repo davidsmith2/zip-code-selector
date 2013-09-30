@@ -1,1 +1,0 @@
-define(["underscore","backbone","models/zip-code"],function(e,t,n){var r=t.Collection.extend({model:n,comparator:function(e){return e.get("code")}});return r});
