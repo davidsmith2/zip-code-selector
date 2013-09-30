@@ -1,0 +1,18 @@
+<script id="modalTemplate" type="text/template">
+    <% if (content.header) { %>
+        <div class="modal-header">
+            <button aria-hidden="true" class="close" type="button">&times;</button>
+            <%= content.header %>
+        </div>
+    <% } %>
+    <% if (content.body) { %>
+        <div class="modal-body">
+            <%= content.body %>
+        </div>
+    <% } %>
+    <% if (content.footer) { %>
+        <div class="modal-footer">
+            <%= content.footer %>
+        </div>
+    <% } %>
+</script>

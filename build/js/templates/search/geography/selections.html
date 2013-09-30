@@ -1,0 +1,21 @@
+<script id="geographySelectionsTemplate" type="text/template">
+    <h3>Selections</h3>
+    <div class="selections" id="zipCodeFile">
+        <h4>Zip code file</h4>
+        <p><% if (!zipCodeFile || !zipCodes.length) { %>None selected<% } else { %> <span class="description"><%= zipCodeFile %></span><% } %></p>
+    </div>
+    <div class="selections" id="zipCodes">
+        <h4>Zip codes</h4>
+        <% if (!zipCodes.length) { %>
+            <p>None selected</p>
+        <% } else { %>
+            <ul class="no-left-margin no-left-padding no-bullets">
+                <% if (!zipCodeFile) { %>
+                    <% _.each(zipCodes, function (zipCode) { %>
+                        <li> <span class="description"><%= zipCode %></span></li>
+                    <% }) %>
+                <% } %>
+            </ul>
+        <% }  %>
+    </div>
+</script>
