@@ -71,9 +71,10 @@ require(['jquery', 'underscore', 'jasmine-html'], function ($, _, jasmine) {
         return htmlReporter.specFilter(spec);
     };
 
-    var specs = [];
-
-    specs.push('spec/views/search/geography/zip-codes/upload/input.spec');
+    var specs = [
+        'spec/views/search/geography/zip-codes/upload/input.spec',
+        'spec/views/search/geography/zip-codes/upload/form.spec'
+    ];
 
     $(function () {
         require(specs, function () {

@@ -5,7 +5,7 @@ define([
 
 function (Model, View) {
 
-    return describe('View :: Attach a ZIP code file', function () {
+    return describe('View :: Search > Geography > ZIP Codes > Upload Input', function () {
 
         var that = this;
 
@@ -17,11 +17,8 @@ function (Model, View) {
         describe('renders file input', function () {
             it('should re-render when a file is attached', function () {
                 that.model.set('name', 'test.txt');
-
                 expect(that.view.$('.uneditable-input').text()).toEqual('test.txt');
-                expect(that.view.$('.btn').text()).toEqual('Detach');
                 expect(that.view.$('.btn').hasClass('detach')).toBeTruthy();
-
             });
         });
 

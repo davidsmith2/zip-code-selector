@@ -38,7 +38,7 @@ function ($, _, Backbone, config, Alert, File, Modal, AlertView, ModalView, Inpu
         },
 
         render: function () {
-            this.$el.empty().append(this.template(this.file.toJSON()), this.fileInput);
+            this.$el.empty().append(this.template(this.file.toJSON()));
             this.$('.alertContainer').empty().append(this.alertView.render().el);
             this.$('form > fieldset').replaceWith(this.inputView.render().el);
             return this;
