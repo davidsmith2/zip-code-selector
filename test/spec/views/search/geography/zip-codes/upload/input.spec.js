@@ -12,6 +12,7 @@ function (Model, View) {
         beforeEach(function () {
             that.model = new Model();
             that.view = new View(that.model);
+            $('#sandbox').html(that.view.render().el);
         });
 
         describe('renders file input', function () {

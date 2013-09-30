@@ -11,13 +11,15 @@ function (Model, View, Subview) {
         var that = this;
 
         beforeEach(function () {
+            var fileInput, validExtensions;
+
             that.model = new Model();
             that.view = new View();
             that.subview = new Subview(that.model);
             $('#sandbox').html(that.view.render().el);
 
-            var fileInput = that.view.$('input[type=file]');
-            var validExtensions = that.view.getFileInfo(fileInput)['validExtensions'];
+            that.view.fileInput = that.view.$('input[type=file]');
+            validExtensions = that.view.getFileInfo(that.view.fileInput)['validExtensions'];
 
             that.model.set('validExtensions', validExtensions);
 
@@ -29,7 +31,15 @@ function (Model, View, Subview) {
 
         describe('uploads a file', function () {
 
-            it('should show filename if extension is valid', function () {
+            it('should have a file input', function () {
+                expect(that.view.fileInput.length).toEqual(1);
+            });
+
+            it('should have a file input with a filled-out accepts attribute', function () {
+                expect(typeof that.view.fileInput.attr('accepts')).toEqual('string');
+            });
+
+            it('should show the filename if the extension is valid', function () {
                 that.model.set({
                     name: 'test.txt',
                     extension: 'txt'
@@ -40,7 +50,7 @@ function (Model, View, Subview) {
                 }
             });
 
-            it('should not show filename if extension is invalid', function () {
+            it('should not show the filename if the extension is invalid', function () {
                 that.model.set({
                     name: 'test.xls',
                     extension: 'xls'
@@ -51,6 +61,7 @@ function (Model, View, Subview) {
                     expect(that.subview.$('.uneditable-input').text()).toEqual('');
                 }
             });
+
         });
 
     });
