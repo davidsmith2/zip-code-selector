@@ -44,8 +44,17 @@ function ($, _, Backbone, config, Alert, File, Modal, AlertView, ModalView, Inpu
             return this;
         },
 
+        attachFile: function (e) {
+            e.preventDefault();
+            this.$('input[type=file]').trigger('click');
+        },
+
         handleFileSelection: function (e) {
-            this.file.set(this.getFileInfo($(e.target)));
+            var $input = $(e.target),
+                path = $input.val(),
+                validExtensions = $input.attr('accepts');
+
+            this.file.set(this.getFileInfo(path, validExtensions));
 
             // validate file based on what we know from client
             if (this.file.isValid()) {
@@ -117,24 +126,16 @@ function ($, _, Backbone, config, Alert, File, Modal, AlertView, ModalView, Inpu
             $('.modalContainer').html(this.modalView.render().el);
         },
 
-        getFileInfo: function ($fileInput) {
-            var path = $fileInput.val(),
-                name = this.file.getName(path),
-                extension = this.file.getExtension(name),
-                validExtensions = $fileInput.attr('accepts').split(',');
+        getFileInfo: function (path, validExtensions) {
+            var name = this.file.getName(path);
 
             return {
+                extension: this.file.getExtension(name),
                 name: name,
-                extension: extension,
                 path: path,
-                validExtensions: validExtensions
+                validExtensions: validExtensions.split(',')
             };
 
-        },
-
-        attachFile: function (e) {
-            e.preventDefault();
-            this.$('input[type=file]').trigger('click');
         },
 
         detachFile: function (e) {

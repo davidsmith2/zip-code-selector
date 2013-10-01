@@ -8,18 +8,26 @@ function (Model, View, Subview) {
 
     return describe('View :: Search > Geography > ZIP Codes > Upload Form', function () {
 
-        var that = this;
+        var that = this, $input, accepts, extensions;
 
         beforeEach(function () {
-            var fileInput, validExtensions;
 
+            // make some objects
             that.model = new Model();
             that.view = new View();
             that.subview = new Subview(that.model);
+
+            // render the main view
             $('#sandbox').html(that.view.render().el);
-            that.view.fileInput = that.view.$('input[type=file]');
-            validExtensions = that.view.getFileInfo(that.view.fileInput)['validExtensions'];
-            that.model.set('validExtensions', validExtensions);
+
+            // grab some variables
+            $input = that.view.$('input[type=file]');
+            accepts = $input.attr('accepts');
+            extensions = that.view.getFileInfo('', accepts)['validExtensions'];
+
+            // update the model
+            that.model.set('validExtensions', extensions);
+
         });
 
         afterEach(function () {
@@ -28,9 +36,22 @@ function (Model, View, Subview) {
 
         describe('uploads a file', function () {
 
-            it('should have a file input with a filled-out accepts attribute', function () {
-                expect(that.view.fileInput.length).toEqual(1);
-                expect(typeof that.view.fileInput.attr('accepts')).toEqual('string');
+            it('should return a file info object given the file\'s path (string) and valid extensions (string)', function () {
+                var path = 'C:\\fakepath\\test.txt',
+                    fileInfo = that.view.getFileInfo(path, accepts);
+
+                expect(typeof fileInfo).toEqual('object');
+
+                expect(fileInfo.extension).toEqual('txt');
+                expect(fileInfo.name).toEqual('test.txt');
+                expect(fileInfo.path).toEqual(path);
+                expect(fileInfo.validExtensions).toEqual(['txt']);
+
+            });
+
+            it('should have a file input with an accepts attribute', function () {
+                expect($input.length).toEqual(1);
+                expect(typeof accepts).toEqual('string');
             });
 
             it('should show the filename if the extension is valid', function () {
@@ -38,7 +59,6 @@ function (Model, View, Subview) {
                     name: 'test.txt',
                     extension: 'txt'
                 });
-
                 if (that.model.isValid()) {
                     expect(that.subview.$('.uneditable-input').text()).toBeTruthy();
                 }
@@ -49,22 +69,10 @@ function (Model, View, Subview) {
                     name: 'test.xls',
                     extension: 'xls'
                 });
-
                 if (!that.model.isValid()) {
                     that.model.reset();
                     expect(that.subview.$('.uneditable-input').text()).toEqual('');
                 }
-            });
-
-            it('should return a fileInfo object from an input element of type "file"', function () {
-                var fileInfo = that.view.getFileInfo($('<input accepts="txt" />').val('C:/fakepath/test.txt'));
-
-                expect(typeof fileInfo).toEqual('object');
-                expect(fileInfo.extension).toEqual('txt');
-                //expect(fileInfo.name).toEqual('test.txt');
-                expect(fileInfo.path).toEqual('C:/fakepath/test.txt');
-                expect(fileInfo.validExtensions).toEqual(['txt']);
-
             });
 
         });
