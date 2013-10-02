@@ -2,6 +2,16 @@
     <p class="h3 no-bottom-margin"><%= resultsCount %></p>
     <p>Students included</p>
     <p>Your search includes <strong><%= resultsPercent %>%</strong> of available students.</p>
-    <% if (name) { %><p><a class="open" href="#"><%= name %></a></p><% } %>
-    <button class="btn btn-primary open">Save</button>
+    <% if (name) { %><p><a class="modal-show" href="#"><%= name %></a></p><% } %>
+    <button class="btn btn-primary modal-show">Save</button>
+    <hr>
+    <div class="dropdown">
+        <a class="dropdown-toggle" href="#" id="drop4" data-toggle="dropdown" role="button">Options</a>
+        <ul aria-labelledby="drop4" class="dropdown-menu" id="drop4" role="menu">
+            <li><a href="#">New search</a></li>
+            <li><a href="#">Copy search</a></li>
+            <li><a href="#">Clear all selections</a></li>
+            <li><a href="#">View summary</a></li>
+        </ul>
+    </div>
 </script>

@@ -2,7 +2,8 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'text!templates/modal.html'
+    'text!templates/modal.html',
+    'bootstrap'
 ],
 
 function ($, _, Backbone, template) {
@@ -22,18 +23,14 @@ function ($, _, Backbone, template) {
         },
 
         render: function () {
-            var self = this;
-
-            require(['bootstrap-modal'], function ($) {
-                self.$el
-                    .attr('tabindex', -1)
-                    .append(
-                        self.template(
-                            self.model.toJSON()
-                            )
+            this.$el
+                .attr('tabindex', -1)
+                .append(
+                    this.template(
+                        this.model.toJSON()
                         )
-                    .modal(self.model.get('options'));
-            });
+                    )
+                .modal(this.model.get('options'));
 
             return this;
         },

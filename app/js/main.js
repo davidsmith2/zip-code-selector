@@ -5,9 +5,7 @@ requirejs.config({
         'underscore':           'lib/underscore/underscore-min',
         'backbone':             'lib/backbone/backbone-min',
         'backbone-extend':      'lib/backbone/plugins/backbone-extend',
-        'bootstrap-transition': 'lib/bootstrap/bootstrap-transition',
-        'bootstrap-alert':      'lib/bootstrap/bootstrap-alert',
-        'bootstrap-modal':      'lib/bootstrap/bootstrap-modal',
+        'bootstrap':            'lib/bootstrap/bootstrap',
         'jquery-form':          'lib/jquery/plugins/jquery.form',
         'text':                 'lib/text/text'
     },
@@ -25,14 +23,8 @@ requirejs.config({
         'backbone-extend': {
             deps: ['backbone']
         },
-        'bootstrap-transition': {
+        'bootstrap': {
             deps: ['jquery']
-        },
-        'bootstrap-alert': {
-            deps: ['jquery']
-        },
-        'bootstrap-modal': {
-            deps: ['jquery', 'bootstrap-transition']
         },
         'jquery-form': {
             deps: ['jquery']

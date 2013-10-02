@@ -6,9 +6,7 @@ requirejs.config({
         'underscore':           'lib/underscore/underscore-min',
         'backbone':             'lib/backbone/backbone-min',
         'backbone-extend':      'lib/backbone/plugins/backbone-extend',
-        'bootstrap-transition': 'lib/bootstrap/bootstrap-transition',
-        'bootstrap-alert':      'lib/bootstrap/bootstrap-alert',
-        'bootstrap-modal':      'lib/bootstrap/bootstrap-modal',
+        'bootstrap':            'lib/bootstrap/bootstrap',
         'jquery-form':          'lib/jquery/plugins/jquery.form',
         'text':                 'lib/text/text',
         'jasmine':              '../test/lib/jasmine',
@@ -29,14 +27,8 @@ requirejs.config({
         'backbone-extend': {
             deps: ['backbone']
         },
-        'bootstrap-transition': {
+        'bootstrap': {
             deps: ['jquery']
-        },
-        'bootstrap-alert': {
-            deps: ['jquery']
-        },
-        'bootstrap-modal': {
-            deps: ['jquery', 'bootstrap-transition']
         },
         'jquery-form': {
             deps: ['jquery']
@@ -73,7 +65,8 @@ require(['jquery', 'underscore', 'jasmine-html'], function ($, _, jasmine) {
 
     var specs = [
         'spec/views/search/geography/zip-codes/upload/input.spec',
-        'spec/views/search/geography/zip-codes/upload/form.spec'
+        'spec/views/search/geography/zip-codes/upload/form.spec',
+        'spec/views/search/results/summary.spec'
     ];
 
     $(function () {

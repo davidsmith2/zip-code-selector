@@ -4,7 +4,8 @@ define([
     'backbone',
     'config',
     'views/search/results/save',
-    'text!templates/search/results/summary.html'
+    'text!templates/search/results/summary.html',
+    'bootstrap'
 ],
 
 function ($, _, Backbone, config, SaveSearchView, template) {
@@ -15,7 +16,8 @@ function ($, _, Backbone, config, SaveSearchView, template) {
         template: _.template($(template).html()),
 
         events: {
-            'click .open': 'showDialog'
+            'click .modal-show': 'showModal',
+            'click .dropdown-menu': 'persistDropdown'
         },
 
         initialize: function (search, searches) {
@@ -28,9 +30,13 @@ function ($, _, Backbone, config, SaveSearchView, template) {
             return this;
         },
 
-        showDialog: function (e) {
+        showModal: function (e) {
             e.preventDefault();
             $('.modalContainer').html(new SaveSearchView(this.search, this.searches).render().el);
+        },
+
+        persistDropdown: function (e) {
+            e.stopPropagation();
         }
 
     });

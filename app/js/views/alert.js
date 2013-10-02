@@ -3,7 +3,8 @@ define([
     'underscore',
     'backbone',
     'config',
-    'text!templates/alert.html'
+    'text!templates/alert.html',
+    'bootstrap'
 ],
 
 function ($, _, Backbone, config, template) {
@@ -22,30 +23,27 @@ function ($, _, Backbone, config, template) {
         },
 
         render: function () {
-            var self = this;
-            
-            require(['bootstrap-alert'], function ($) {
-                self.$el
-                    .removeClass()
-                    .empty()
-                    .append(self
-                        .template(
-                            self.model
-                                .toJSON()
-                            )
+            this.$el
+                .removeClass()
+                .empty()
+                .append(this
+                    .template(
+                        this.model
+                            .toJSON()
                         )
-                    .alert();
+                    )
+                .alert();
 
-                if (self.model.get('content')) {
-                    self.$el.addClass('alert');
-                }
-                if (self.model.get('connotation')) {
-                    self.$el.addClass('alert-' + self.model.get('connotation'));
-                }
-                if (self.model.get('block')) {
-                    self.$el.addClass('alert-block');
-                }
-            });
+            if (this.model.get('content')) {
+                this.$el.addClass('alert');
+            }
+            if (this.model.get('connotation')) {
+                this.$el.addClass('alert-' + this.model.get('connotation'));
+            }
+            if (this.model.get('block')) {
+                this.$el.addClass('alert-block');
+            }
+
             return this;
         },
 
