@@ -19,15 +19,13 @@ function (Model, View) {
             that.view.remove();
         });
 
-        describe('search options', function () {
-
+        describe('options button', function () {
             it('should open the options menu', function () {
                 that.view.$('.dropdown-toggle').trigger('click');
                 expect(that.view.$('.dropdown').hasClass('open')).toBeTruthy();
                 that.view.$('.dropdown-toggle').trigger('click');
                 expect(that.view.$('.dropdown').hasClass('open')).toBeFalsy();
             });
-
         });
 
     });
