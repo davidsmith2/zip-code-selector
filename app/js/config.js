@@ -77,14 +77,6 @@ function () {
             }
         ],
 
-        modals: [
-            {
-                header: '<h3>ZIP Loader Tips</h3>',
-                body: '<ul><li>You can upload as many as 4,000 two-, three-, or five-digit ZIP codes in one file.</li></ul>',
-                footer: '<a href="#" class="btn modal-cancel">Close</a>'
-            }
-        ],
-
         upload: {},
 
         manual: {

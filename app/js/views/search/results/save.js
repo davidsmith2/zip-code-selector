@@ -14,20 +14,20 @@ function ($, _, Backbone, template) {
         template: _.template($(template).html()),
 
         events: {
-            'change #name':             'saveName',
-            'click #private':           'savePrivate',
-            'click .confirm':           'saveSearch',
-            'click .cancel':            'hideDialog',
-            'click .close':             'hideDialog'
+            'change #name': 'saveName',
+            'click #private': 'savePrivate',
+            'click .confirm': 'saveSearch',
+            'click .cancel': 'hideDialog',
+            'click .close': 'hideDialog'
         },
 
-        initialize: function (search, searches) {
-            this.search = search;
-            this.searches = searches;
+        initialize: function (model, collection) {
+            this.model = model;
+            this.collection = collection;
         },
 
         render: function () {
-            this.$el.attr('tabindex', -1).empty().append(this.template(this.search.toJSON())).modal();
+            this.$el.attr('tabindex', -1).empty().append(this.template(this.model.toJSON())).modal();
             return this;
         },
 
@@ -35,7 +35,7 @@ function ($, _, Backbone, template) {
             var name = $(e.target).val();
 
             if (name) {
-                this.search.set({
+                this.model.set({
                     name: name
                 }, {
                     silent: true
@@ -44,7 +44,7 @@ function ($, _, Backbone, template) {
         },
 
         savePrivate: function (e) {
-            this.search.set({
+            this.model.set({
                 _private: ($(e.target).is(':checked')) ? true : false
             }, {
                 silent: true
@@ -54,10 +54,10 @@ function ($, _, Backbone, template) {
         saveSearch: function (e) {
             e.preventDefault();
             this.$('.close').trigger('click');
-            if (this.search.isNew()) {
-                this.searches.create(this.search);
+            if (this.model.isNew()) {
+                this.collection.create(this.search);
             } else {
-                this.search.save();
+                this.model.save();
             }
         },
 

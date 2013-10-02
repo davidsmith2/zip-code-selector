@@ -7,12 +7,12 @@ define([
     'models/file',
     'models/modal',
     'views/alert',
-    'views/modal',
+    'views/search/geography/zip-codes/upload/help',
     'views/search/geography/zip-codes/upload/input',
     'text!templates/search/geography/zip-codes/upload/form.html'
 ],
 
-function ($, _, Backbone, config, Alert, File, Modal, AlertView, ModalView, InputView, template) {
+function ($, _, Backbone, config, Alert, File, Modal, AlertView, HelpView, InputView, template) {
 
     var UploadView = Backbone.View.extend({
 
@@ -28,12 +28,8 @@ function ($, _, Backbone, config, Alert, File, Modal, AlertView, ModalView, Inpu
 
         initialize: function () {
             this.alert = new Alert();
-            this.modal = new Modal({
-                content: config.modals[0]
-            });
             this.file = new File();
             this.alertView = new AlertView(this.alert);
-            this.modalView = new ModalView(this.modal);
             this.inputView = new InputView(this.file);
         },
 
@@ -123,7 +119,7 @@ function ($, _, Backbone, config, Alert, File, Modal, AlertView, ModalView, Inpu
 
         showDialog: function (e) {
             e.preventDefault();
-            $('.modalContainer').html(this.modalView.render().el);
+            $('.modalContainer').html(new HelpView().render().el);
         },
 
         getFileInfo: function (path, validExtensions) {

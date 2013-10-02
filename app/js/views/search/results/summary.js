@@ -20,19 +20,20 @@ function ($, _, Backbone, config, SaveSearchView, template) {
             'click .dropdown-menu': 'persistDropdown'
         },
 
-        initialize: function (search, searches) {
-            this.search = search;
-            this.searches = searches;
+        initialize: function (model, collection) {
+            this.model = model;
+            this.collection = collection;
         },
 
         render: function () {
-            this.$el.empty().append(this.template(this.search.toJSON()));
+            this.$el.empty().append(this.template(this.model.toJSON()));
+            this.$('.dropdown-toggle').dropdown();
             return this;
         },
 
         showModal: function (e) {
             e.preventDefault();
-            $('.modalContainer').html(new SaveSearchView(this.search, this.searches).render().el);
+            $('.modalContainer').html(new SaveSearchView(this.model, this.collection).render().el);
         },
 
         persistDropdown: function (e) {
